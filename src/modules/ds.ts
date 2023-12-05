@@ -4,6 +4,6 @@ export interface Resource {
     IsAvailable: boolean,
     Place: string,
     Image: string,
-    Month: string,
-    MonthlyProduction: number,
+    Months: string[],
+    MonthlyProds: number[],
 }

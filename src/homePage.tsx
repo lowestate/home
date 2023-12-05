@@ -19,13 +19,12 @@ const HomePage: FC = () => {
         const loadResources = async () => {
             try {
                 const result = await getAllResources(resName);
-                let temp = resName === '' ? Object.values(result)[0] : Object.values(result)[1];
-                setResources(temp as unknown as Resource[]);
-            } catch (error) {
+                console.log(result)
+                setResources(result);
+              } catch (error) {
                 console.error("Ошибка при загрузке объектов:", error);
-            }
+              }
         }        
-
         loadResources();
     }, []);
 
@@ -39,7 +38,7 @@ const HomePage: FC = () => {
 
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        window.location.href = `/home?title=${searchText}`;
+        window.location.href = `/resources?title=${searchText}`;
     };
 
     return (
@@ -72,8 +71,8 @@ const HomePage: FC = () => {
                                     imageUrl={resource.Image}
                                     resourceName={resource.ResourceName}
                                     resourceStatus={resource.IsAvailable}
-                                    resourceDetailed={`/home/${resource.ResourceName}`}
-                                    changeStatus={`/home/delete_resource/${resource.ResourceName}`}
+                                    resourceDetailed={`/resources/${resource.ResourceName}`}
+                                    changeStatus={`/resources/change_res_status/${resource.ResourceName}`}
                                     onStatusChange={handleStatusChange}
                                 />
                             ))}

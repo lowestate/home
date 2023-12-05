@@ -6,14 +6,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import HomePage from './homePage'
 import ResPage from './resPage'
+import LoginPage from './loginPage';
+import LogoutPage from './logoutPage';
 
 const router = createBrowserRouter([
   {
-    path: '/home',
+    path:'/login',
+    element: <LoginPage />
+  },
+  {
+    path:'/logout',
+    element: <LogoutPage />
+  },
+  {
+    path: '/resources',
     element: <HomePage />
   },
   {
-    path: '/home/:title',
+    path: '/resources/:title',
     element: <ResPage />
   }
 ])
