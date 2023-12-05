@@ -12,7 +12,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh; /* Чтобы объект был по центру по вертикали */
+    height: 75vh; /* Чтобы объект был по центру по вертикали */
 }
 
 .resource-container {
@@ -20,7 +20,7 @@ body {
     background-color: rgba(54, 54, 54, 0.7);
     border: 1px solid #ddd;
     border-radius: 5px;
-    height: 400px;
+    height: 500px;
 }
 
 .resource-details {
@@ -30,10 +30,14 @@ body {
     padding: 10px;
 }
 
+.resource-info {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
 .page-title {
     font-size: 36px;
     text-align: center;
-    margin-top: 10px;
     color: #cdcdcd; /* Темно-синий цвет заголовка */
 }
 
@@ -124,10 +128,10 @@ body {
 }
 
 .resource-title {
-    font-size: 22px;
+    font-size: 30px;
     font-weight: 700;
     color: #f8f8f8;
-    margin: 5px 0;
+    margin: 15px;
 }
 
 .resource-link {
@@ -148,7 +152,6 @@ body {
 
 .home-link {
     text-decoration: none;
-    margin-bottom: 20px;
 }
 
 .home-button {
@@ -299,3 +302,55 @@ body {
 .navbar-logo:hover {
     color: #efab52; /* Оранжевый цвет текста при наведении */
 }
+
+.login-card {
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: rgba(56, 56, 56, 0.7); /* Серый прозрачный фон */
+    border: 1px solid #ddd;
+    text-align: center; /* Выравнивание по центру */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .header {
+    display: block;
+    color:#ddd;
+    margin-bottom: 10px;
+    font-size: 32px; /* Увеличение размера текста */
+  }
+  
+  .form-group label {
+    display: block;
+    color:#ddd;
+    margin-bottom: 5px;
+    font-size: 18px; /* Увеличение размера текста */
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #fff; /* Белая обводка */
+    border-radius: 5px;
+  }
+  
+  .form-group button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    background-color: #555; /* Темно-серая кнопка */
+    color: #fff;
+    border: 1px solid #fff; /* Белая обводка */
+    border-radius: 5px;
+    cursor: pointer;
+  }

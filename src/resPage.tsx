@@ -16,6 +16,7 @@ const ResPage: FC = () => {
 
         const loadResource = async () => {
             const result = await getResourceByName(String(title))
+            console.log(result)
             setResource(result)
         }
 
@@ -30,11 +31,16 @@ const ResPage: FC = () => {
         <div className="resource-container">
             {resource ? (
               <div className="resource-details">
-                <img src={`data:image/jpg;base64, ${resource.Image}`} className="resource-image" alt="картинка" />
+                <img src={resource.Image} className="resource-image" alt="картинка" />
                 <h1 className="resource-title">{resource.ResourceName}</h1>
                 <p className="resource-info">Место добычи: {resource.Place}</p>
-                <p className="resource-info">Статус: {resource.IsAvailable ? 'еще есть' : 'закончился'}</p>
-                <a href="../home" className="home-link">
+                {resource.Months.map((month, index) => (
+                  <p className="resource-info" key={index}>
+                    За {month.toLowerCase()} добыто {resource.MonthlyProds[index]} кг
+                  </p>
+                ))}
+                <p className="resource-info">Этот ресурс {resource.IsAvailable ? 'еще есть' : 'закончился'}</p>
+                <a href="../resources" className="home-link">
                   <span className="home-button">На главную страницу</span>
                 </a>
               </div>

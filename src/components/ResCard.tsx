@@ -29,7 +29,7 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
     
     return (
         <Card className='resource-card'>
-            <Card.Img className="resource-image" src={`data:image/png;base64, ${imageUrl}`} />
+            <Card.Img className="resource-image" src={imageUrl}/>
             <Card.Body>
                 <div>
                     <Card.Title className="resource-title"> {resourceName} </Card.Title>

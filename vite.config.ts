@@ -16,6 +16,5 @@ export default defineConfig({
        }
       }
   },
-  base: "home",
   plugins: [react()],
 })
