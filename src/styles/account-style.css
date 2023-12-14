@@ -1,0 +1,39 @@
+.profile-container {
+    text-align: center;
+    background-color: rgba(54, 54, 54, 0.7);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 30%; /* Ширина 30% от ширины страницы */
+    max-height: 70vh; /* Максимальная высота 70% от высоты страницы */
+    overflow: hidden; /* Скрываем возможное переполнение контента */
+    box-sizing: border-box; /* Учитываем отступы и границу в размерах элемента */
+    padding: 20px; /* Внутренние отступы */
+    margin: 20px auto; /* Центрируем по горизонтали и добавляем внешние отступы */
+}
+
+.profile-container h1 {
+    font-size: 28px;
+    margin-bottom: 15px; /* Уменьшаем отступ снизу */
+    color: #f8f8f8; /* Цвет текста */
+}
+
+.profile-container p {
+    font-size: 20px;
+    margin-bottom: 15px; /* Уменьшаем отступ снизу */
+    color: #d6d6d6; /* Цвет текста */
+}
+
+.profile-container button {
+    font-size: 18px;
+    background-color: #4f4f4f;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Плавное изменение цвета при наведении */
+}
+
+.profile-container button:hover {
+    background-color: #333;
+}
