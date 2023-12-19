@@ -11,15 +11,16 @@
     background-color: rgba(54, 54, 54, 0.7);
     border: 1px solid #ddd;
     border-radius: 5px;
-    width: 25%; /* Ширина 30% от ширины страницы */
-    max-height: 80vh; /* Максимальная высота 70% от высоты страницы */
+    margin-top: 40px;
+    width: 33%; /* Ширина 30% от ширины страницы */
+    max-height: 90vh; /* Максимальная высота 70% от высоты страницы */
     overflow: hidden; /* Скрываем возможное переполнение контента */
     box-sizing: border-box; /* Учитываем отступы и границу в размерах элемента */
-    padding: 10px; /* Уменьшаем внутренние отступы */
+    padding: 5px; /* Уменьшаем внутренние отступы */
 }
 
 .resource-image {
-    max-width: 90%;
+    max-width: 80%;
     height: auto;
     border-radius: 5px;
     margin-bottom: 10px; /* Уменьшаем отступ снизу */
@@ -34,12 +35,11 @@
 
 .resource-title {
     font-size: 28px;
-    margin-bottom: 10px; /* Уменьшаем отступ снизу */
 }
 
 .resource-info {
     font-size: 18px;
-    margin-bottom: 15px; /* Уменьшаем отступ снизу */
+    margin-bottom: 10px; /* Уменьшаем отступ снизу */
 }
 
 .home-button {
@@ -49,7 +49,7 @@
     padding: 10px 20px;
     border-radius: 5px;
     border: 1px solid #fff;
-    margin-bottom: 5px; /* Уменьшаем отступ снизу */
+    margin-bottom: 5px;
 }
 
 .home-link {

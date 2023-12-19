@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-export const createReport = async(resources: string[], userToken: string): Promise<AxiosResponse> => {
+export const createReport = async(resource: string, userToken: string): Promise<AxiosResponse> => {
   const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -8,9 +8,9 @@ export const createReport = async(resources: string[], userToken: string): Promi
       },
     }
   return axios.post(
-      '/api/reports/create',
+      `/api/reports/${encodeURIComponent(resource)}/add`,
       {
-        'resources': resources,
+        'resources': resource,
       },
       config
 

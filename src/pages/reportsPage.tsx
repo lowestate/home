@@ -43,6 +43,7 @@ const ReportCard: FC = () => {
                 {transfReqs.map((item, index) => (
                     <Col key={index}> 
                         <TransfReqCard {...{
+                            id: item.ID,
                             status: item.Status,
                             dateCreated: item.DateCreated,
                             dateFinished: item.DateFinished,

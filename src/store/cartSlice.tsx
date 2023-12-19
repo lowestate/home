@@ -1,49 +1,43 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const resources = localStorage.getItem('resources')
-    ? localStorage.getItem('resources')?.split(',')
-    : [];
-
-const initialState = {
-    resources,
-    added: false
+interface CartState {
+  resources: string[];
+  added: boolean;
 }
 
+const initialState: CartState = {
+  resources: localStorage.getItem('resources')
+    ? localStorage.getItem('resources')?.split(',') || []
+    : [],
+  added: false,
+};
+
 const cartSlice = createSlice({
-    name: 'cart',
-    initialState,
-    reducers:{
-        addResources(state, {payload}) {
-            if (state.resources == null) {
-                state.resources = []
-            }
+  name: 'cart',
+  initialState,
+  reducers: {
+    addResource(state, { payload }: PayloadAction<string>) {
+      if (!state.resources.includes(payload)) {
+        state.resources.push(payload);
+        localStorage.setItem('resources', state.resources.toString());
+      }
+      state.added = true;
+    },
+    removeResource(state, { payload }: PayloadAction<string>) {
+      const orbitIndex = state.resources.indexOf(payload);
+      if (orbitIndex > -1) {
+        state.resources.splice(orbitIndex, 1);
+        localStorage.setItem('resources', state.resources.toString());
+      }
+    },
+    disableAdded(state) {
+      state.added = false;
+    },
+    setResources(state, { payload }: PayloadAction<string[]>) {
+      state.resources = Array.from(new Set([...state.resources, ...payload]));
+      localStorage.setItem('orbits', state.resources.toString());
+    },
+  },
+});
 
-            if (state.resources.indexOf(payload.toString()) === -1) {
-                state.resources.push(payload.toString())
-                localStorage.setItem('resources', state.resources.toString())
-            }
-            state.added = true
-            
-        },
-        removeResource(state, {payload}) {
-            if (state.resources == null) {
-                state.resources = []
-            }
-
-            if (state.resources.length == 0) {
-                return
-            }
-            
-            const resourceIndex = state.resources.indexOf(payload.toString())
-            if (resourceIndex > -1) {
-                state.resources.splice(resourceIndex, 1)
-                localStorage.setItem('resources', state.resources.toString())
-            }
-        },
-        disableAdded(state) {
-            state.added = false
-        }
-    }
-})
-
-export default cartSlice
+export default cartSlice;

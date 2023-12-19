@@ -2,10 +2,8 @@ export interface Resource {
     ID: number,
     ResourceName: string,
     IsAvailable: boolean,
-    Place: string,
     Image: string,
-    Months: string[],
-    MonthlyProds: number[],
+    Desc: string
 }
 
 export interface User {
@@ -25,4 +23,14 @@ export interface ExtractionReports {
     DateCreated?: string,
     DateProcessed?: string,
     DateFinished?: string,
+    Month?: string,
+    Place?: string
+}
+
+export interface ManageReports {
+    ID: number,
+    ReporRef: number,
+    ResourceRef: number,
+    Plan: number,
+    Fact: number
 }

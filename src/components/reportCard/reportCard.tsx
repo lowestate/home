@@ -1,18 +1,18 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Button, Card } from 'react-bootstrap';
 import store from '../../store/store'
 import '../../styles/reportCard.style.css'
 
 interface transfReqProps {
+    id: number,
     status: string,
     dateCreated?: string,
     dateFinished?: string,
 }
 
-const reportCard: FC<transfReqProps> = ({ status, dateCreated, dateFinished }) => {
+const reportCard: FC<transfReqProps> = ({ id, status, dateCreated, dateFinished }) => {
     const { userRole, userName } = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
-
     const formatDate = (dateString: string | undefined) => {
         if (!dateString) {
             return 'N/A';
@@ -45,15 +45,26 @@ const reportCard: FC<transfReqProps> = ({ status, dateCreated, dateFinished }) =
             <Card.Footer>
                 {userRole === '0' && status === 'Черновик' &&
                     <>
-                        <Button variant="primary">Изменить</Button>{' '}
+                        <Button 
+                            variant="primary" 
+                            onClick={() => (window.location.href = `/reports/${id}`)}
+                            >Изменить
+                        </Button>
                         <Button variant="danger">Отменить</Button>
                     </>
                 }
                 {userRole === '0' && status !== 'Черновик' &&
-                    <Button variant="info">Просмотр</Button>
+                    <Button 
+                        variant="info" 
+                        onClick={() => (window.location.href = `/reports/${id}`)}
+                        >Просмотр
+                    </Button>
                 }
                 {userRole === '1' &&
-                    <Button variant="primary">Изменить</Button>
+                    <Button 
+                    variant="primary"
+                    onClick={() => (window.location.href = `/reports/${id}`)}
+                    >Изменить</Button>
                 }
             </Card.Footer>
         </Card>

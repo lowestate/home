@@ -58,6 +58,17 @@ const NavigationMain: FC = () => {
                                 >
                                     Личный кабинет
                                 </NavDropdown.Item>
+                                {(userRole === '0') && (
+                                    <NavDropdown.Item
+                                        className="navbar-block"
+                                        onClick={() => {
+                                            navigate('/manage_reports');
+                                            setShowDropdown(false);
+                                        }}
+                                    >
+                                        Корзина
+                                    </NavDropdown.Item>
+                                )}
                                 {(userRole === '0' || userRole === '1') && (
                                     <NavDropdown.Item
                                         className="navbar-block"

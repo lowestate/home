@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import store, { useAppDispatch } from '../../store/store';
 import { useSelector } from 'react-redux';
 import cartSlice from '../../store/cartSlice';
+import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
+import { createReport } from '../../modules/create_report';
 
 interface Props {
     imageUrl: string;
@@ -22,10 +24,6 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
     const dispatch = useAppDispatch()
 
     const { userRole, userToken } = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
-    
-    const handleAddResourceToCart = () => {
-        dispatch(cartSlice.actions.addResources(resourceName))
-    }
 
     const handleStatusChange = async () => {
         setIsStatusChanging(true);
@@ -33,10 +31,23 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
             await changeResourceStatus(userToken?.toString(), resourceName);
             onStatusChange(resourceName, !resourceStatus);
         } catch (error) {
-            console.error('Ошибка при изменении статуса орбиты:', error);
+            console.error('Ошибка при изменении статуса ресурса:', error);
         } finally {
             setIsStatusChanging(false);
             navigate('/resources');
+        }
+    };
+
+    const handleCreateReport = async () => {
+        try {
+            if(!userToken){
+                return
+            }
+            const response = await createReport(resourceName, userToken);
+            localStorage.setItem("reqID", response.data)
+            dispatch(cartSlice.actions.addResource(resourceName));
+        } catch (error) {
+            console.error('Ошибка:', error);
         }
     };
     
@@ -64,7 +75,7 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
                     </Button>
                     )}
                     {userRole =='0' && (
-                        <Button className='button' onClick={handleAddResourceToCart}> Добавить</Button>
+                        <Button className='button' onClick={handleCreateReport}> Добавить</Button>
                     )}
             </Card.Body>
         </Card>

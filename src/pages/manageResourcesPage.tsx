@@ -1,95 +1,296 @@
-import { FC, useState } from "react";
-import {useSelector } from "react-redux/es/hooks/useSelector";
-import { Button, ListGroup, ListGroupItem, Modal } from "react-bootstrap";
+import { ChangeEvent, FC, useState } from "react";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { Form, Button, Col, FormControl, ListGroup, ListGroupItem, Modal, Row } from "react-bootstrap";
 import cartSlice from "../store/cartSlice";
 import store, { useAppDispatch } from "../store/store";
 import { createReport } from "../modules/create_report";
-
-interface InputChangeInterface {
-    target: HTMLInputElement;
-  }
+import { useNavigate } from "react-router-dom";
+import { deleteResourceFromMM } from "../modules/delete_resource_from_mm";
+import { changeReportStatus } from "../modules/change_report_status";
+import { changeResourceStatus } from "../modules/change_resource_status";
+import { InsertPlanInMM } from "../modules/insert_plan_in_mm";
+import { InsertDataToReport } from "../modules/insertDataInReport";
 
 const ManageResources: FC = () => {
-    const [showSuccess, setShowSuccess] = useState(false)
-    const [showError, setShowError] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
+    const [inputValues, setInputValues] = useState<{ [key: number]: string }>({});
+    const [inputPlace, setInputPlace] = useState< string >();
+    const [inputMonth, setInputMonth] = useState< string >();
+
+    const {userToken} = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
+    const resources = useSelector((state: ReturnType<typeof store.getState>) => state.cart.resources);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    const deleteFromCart = (orbitName: string) => {
+        return async (event: React.MouseEvent) => {
+            if (!userToken) {
+                return;
+            }
+            try {
+                await deleteResourceFromMM(orbitName, localStorage.getItem("reqID"), userToken);
+                dispatch(cartSlice.actions.removeResource(orbitName));
+            } catch (error) {
+                console.error(error);
+                setShowError(true);
+            }
+            event.preventDefault();
+        };
+    };
+
+    const sendRequest = async () => {
+        if (!userToken) {
+            return;
+        }
+
+        const reqIDString: string | null = localStorage.getItem("reqID");
+        const reqID: number = reqIDString ? parseInt(reqIDString, 10) : 0;
+
+        try {
+            await changeReportStatus(userToken, {
+                ID: reqID,
+                Status: "На рассмотрении",
+                Month: "",
+                Place: "",
+            });
+
+            localStorage.setItem("reqID", "");
+
+            const storedOrbitsString: string[] | undefined = localStorage.getItem('resources')?.split(',');
+            if (storedOrbitsString) {
+                storedOrbitsString.forEach((orbitName: string) => {
+                    dispatch(cartSlice.actions.removeResource(orbitName));
+                });
+
+                localStorage.setItem("resources", "");
+            }
+            setRedirectUrl(`/reports/${reqID}`);
+            setShowSuccess(true);
+        } catch (error) {
+            console.error(error);
+            setShowError(true);
+        }
+    };
+
+    const sendPlansToBackend = async () => {
+        if (!userToken) {
+            return;
+        }
+        
+        const reqIDString: string | null = localStorage.getItem("reqID");
+        const reqID: number = reqIDString ? parseInt(reqIDString, 10) : 0;
+        
+
+        try {
+            const resourcesFromLS = localStorage.getItem("resources")
+            const resourcesArray = resourcesFromLS ? resourcesFromLS.split(',') : [];
+
+            if (inputValues && inputMonth && inputPlace) { 
+                await Promise.all(
+                    resourcesArray.map(async (resName, resID) => {
+                        const plan = inputValues[resID] || ''; 
+                        await InsertPlanInMM(userToken, reqID, resName, parseInt(plan, 10));
+                    })
+                );
+                await InsertDataToReport(userToken, reqID, inputMonth, inputPlace);
+                
+                await changeReportStatus(userToken, {
+                    ID: reqID,
+                    Status: "На рассмотрении",
+                });
     
-    const dispatch = useAppDispatch()
+                localStorage.setItem("reqID", "");
     
-    const {userToken} = useSelector((state: ReturnType<typeof store.getState> ) => state.auth)
-    const {resources} = useSelector((state: ReturnType<typeof store.getState>) => state.cart)
-
-    const deleteFromCart = (regionName = '') => {
-        return (event: React.MouseEvent) => {
-            dispatch(cartSlice.actions.removeResource(regionName))
-            event.preventDefault()
+                const storedOrbitsString: string[] | undefined = localStorage.getItem('resources')?.split(',');
+                if (storedOrbitsString) {
+                    storedOrbitsString.forEach((orbitName: string) => {
+                        dispatch(cartSlice.actions.removeResource(orbitName));
+                    });
+    
+                    localStorage.setItem("resources", "");
+                }
+                setRedirectUrl(`/reports/`);
+                setShowSuccess(true);
+            }
+        } catch (error) {
+            console.error(error);
+            setShowError(true);
         }
-    }
+    };
 
-    const addResource = async () => {
-        if (resources === undefined || userToken === null) {
-            return
+    const deleteRequest = async () => {
+        if (!userToken) {
+            return;
         }
 
-        const result = await createReport(resources, userToken)
-        if (result.status == 201) {
-            setShowSuccess(true)
-        } else {
-            setShowError(true)
+        const reqIDString: string | null = localStorage.getItem("reqID");
+        const reqID: number = reqIDString ? parseInt(reqIDString, 10) : 0;
+
+        try {
+            await changeReportStatus(userToken, {
+                ID: reqID,
+                Status: "Удалена",
+            });
+
+            localStorage.setItem("reqID", "");
+
+            const storedOrbitsString: string[] | undefined = localStorage.getItem('resources')?.split(',');
+            if (storedOrbitsString) {
+                storedOrbitsString.forEach((orbitName: string) => {
+                    dispatch(cartSlice.actions.removeResource(orbitName));
+                });
+
+                localStorage.setItem("resources", "");
+            }
+            navigate(`/resources`);
+        } catch (error) {
+            console.error(error);
+            setShowError(true);
         }
-    }
+    };
 
     const handleErrorClose = () => {
-        setShowError(false)
-    }
+        setShowError(false);
+    };
+
     const handleSuccessClose = () => {
-        setShowSuccess(false)
-    }
+        setShowSuccess(false);
+
+        if (redirectUrl) {
+            navigate(redirectUrl);
+            setRedirectUrl(null);
+        }
+    };
+
+    const handleResourceInputChange = (e: ChangeEvent<HTMLInputElement>, resID: number) => {
+        const inputValue = e.target.value;
+        setInputValues((prevValues) => ({ ...prevValues, [resID]: inputValue }));
+    };
+
+    const handlePlaceInput = (e: ChangeEvent<HTMLSelectElement>) => {
+        const inputPlace = e.target.value;
+        setInputPlace(inputPlace);
+    };
+
+    const handleMonthInput = (e: ChangeEvent<HTMLSelectElement>) => {
+        const inputMonth = e.target.value;
+        setInputMonth(inputMonth);
+    };
 
     return (
-        <>
-            <Modal show = {showError} onHide={handleErrorClose}>
+        <div className="cart-container">
+            <Modal show={showError} onHide={handleErrorClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Не получилось добавить орбиту</Modal.Title>
+                    <Modal.Title>Не получилось добавить ресурс</Modal.Title>
                 </Modal.Header>
                 <Modal.Footer>
                     <Button variant="danger" onClick={handleErrorClose}>
-                      Закрыть
+                        Закрыть
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <Modal show = {showSuccess} onHide={handleSuccessClose}>
+            <Modal show={showSuccess} onHide={handleSuccessClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Орбита добавлена</Modal.Title>
+                    <Modal.Title>Заявка отправлена</Modal.Title>
                 </Modal.Header>
                 <Modal.Footer>
                     <Button variant="success" onClick={handleSuccessClose}>
-                      Закрыть
+                        Просмотр
+                    </Button>
+                    <Button onClick={() => (navigate(`/resources`))} variant="primary" className="button">
+                        К ресурсам
                     </Button>
                 </Modal.Footer>
             </Modal>
-            {resources?.length !== 0 &&
-                <h3>Выбранные орбиты:</h3>
-            }
-            {resources?.length === 0 && 
-                <h4>Вы ещё не выбрали ни одной орбиты</h4>
-            }
-            <ListGroup style={{width: '500px'}}>
-                {resources?.map((regionName, regionID) => (
-                    <ListGroupItem key={regionID}> {regionName}
-                        <span className="pull-right button-group" style={{float: 'right'}}>
-                            <Button variant="danger" onClick={deleteFromCart(regionName)}>Удалить</Button>
+            {!userToken && (<>
+                <h3> Вам необходимо войти в систему </h3>
+                <Button onClick={() => (navigate(`/auth`))} variant="primary" className="button">
+                    Войти
+                </Button>
+            </>)}
+            {userToken && (<>
+            {resources?.length !== 0 && <h3>Выбранные ресурсы:</h3>}
+            {resources?.length === 0 && <h4>Вы ещё не выбрали ни одного ресурса</h4>}
+            <ListGroup style={{ width: '500px' }}>
+                {resources?.map((resName, resID) => (
+                    <ListGroupItem key={resID}>
+                        {resName}
+                            <FormControl
+                                type="text"
+                                placeholder="Добыча по плану..."
+                                value={inputValues[resID] || ''}
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => handleResourceInputChange(e, resID)}
+                                className="mr-sm-2"
+                            />
+                        <span className="pull-right button-group" style={{ float: 'right' }}>
+                            <Button variant="danger" onClick={deleteFromCart(resName)}>
+                                Удалить
+                            </Button>
                         </span>
                     </ListGroupItem>
-                ))
-                }
+                ))}
             </ListGroup>
-            <p></p>
-            <Button onClick={addResource}>Оформить</Button>
-            <p></p>
-            <Button href="/orbits">Домой</Button>
-        </>
-    )
-               
-}
+            {resources?.length !== 0 && (
+                <>
+                <Row>
+                <Col>
+                    <Form.Select
+                        value={inputPlace || ''}
+                        onChange={(e: ChangeEvent<HTMLSelectElement>) => handlePlaceInput(e)}
+                        className="mr-sm-2"
+                    >
+                        <option value="">Выберите место добычи</option>
+                        <option value="Море Восточное">Море Восточное</option>
+                        <option value="Море влажности">Море влажности</option>
+                        <option value="Океан Бурь">Океан Бурь</option>
+                    </Form.Select>
+                    </Col>
+
+                    <Col>
+                    <Form.Select
+                        value={inputMonth || ''}
+                        onChange={(e: ChangeEvent<HTMLSelectElement>) => handleMonthInput(e)}
+                        className="mr-sm-2"
+                    >
+                        <option value="">Выберите месяц</option>
+                        <option value="Январь">Январь</option>
+                        <option value="Февраль">Февраль</option>
+                        <option value="Март">Март</option>
+                        <option value="Апрель">Апрель</option>
+                        <option value="Май">Май</option>
+                        <option value="Июнь">Июнь</option>
+                        <option value="Июль">Июль</option>
+                        <option value="Август">Август</option>
+                        <option value="Сентябрь">Сентябрь</option>
+                        <option value="Октябрь">Октябрь</option>
+                        <option value="Ноябрь">Ноябрь</option>
+                        <option value="Декабрь">Декабрь</option>
+                    </Form.Select>
+                    </Col>
+                <Col>
+                <Button className="common-button" 
+                        variant="success" 
+                        onClick={sendPlansToBackend} disabled={resources.length === 0}>
+                        Сформировать
+                </Button>
+                </Col>
+                <Col>
+                <Button className="common-button" 
+                        variant="danger" 
+                        onClick={deleteRequest}
+                        disabled={resources.length === 0}>
+                        Отменить
+                </Button>
+                </Col>
+                </Row>
+                </>
+            )}
+            <button onClick={() => navigate("/resources")}>К ресурсам</button>
+            </>)}
+        </div>
+    );
+};              
 
 export default ManageResources;
