@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import cartSlice from '../../store/cartSlice';
 import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
 import { createReport } from '../../modules/create_report';
+import { changeResource } from '../../modules/edit_resource';
 
 interface Props {
     imageUrl: string;
@@ -37,6 +38,10 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
             navigate('/resources');
         }
     };
+
+    const handleResourceEdit = async () => {
+        navigate(`/resources/${resourceName}/edit`)
+    }
 
     const handleCreateReport = async () => {
         try {
@@ -72,6 +77,13 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
                         disabled={isStatusChanging}
                     >
                         {isStatusChanging ? 'Удаление...' : 'Удалить'}
+                    </Button>
+                    ) && (
+                        <Button
+                        className='button'
+                        onClick={handleResourceEdit}
+                    >
+                        Редактировать
                     </Button>
                     )}
                     {userRole =='0' && (

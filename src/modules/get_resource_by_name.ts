@@ -4,7 +4,7 @@ import { Resource } from './ds';
 export const getResourceByName = async (resourceName = ''): Promise<Resource> => {
   try {
     const response = await axios.get('/api/resources/' + String(resourceName),);
-
+    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error(error);

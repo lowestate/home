@@ -30,6 +30,7 @@ const ManageResources: FC = () => {
                 return;
             }
             try {
+                console.log(orbitName, localStorage.getItem("reqID"))
                 await deleteResourceFromMM(orbitName, localStorage.getItem("reqID"), userToken);
                 dispatch(cartSlice.actions.removeResource(orbitName));
             } catch (error) {
@@ -38,40 +39,6 @@ const ManageResources: FC = () => {
             }
             event.preventDefault();
         };
-    };
-
-    const sendRequest = async () => {
-        if (!userToken) {
-            return;
-        }
-
-        const reqIDString: string | null = localStorage.getItem("reqID");
-        const reqID: number = reqIDString ? parseInt(reqIDString, 10) : 0;
-
-        try {
-            await changeReportStatus(userToken, {
-                ID: reqID,
-                Status: "На рассмотрении",
-                Month: "",
-                Place: "",
-            });
-
-            localStorage.setItem("reqID", "");
-
-            const storedOrbitsString: string[] | undefined = localStorage.getItem('resources')?.split(',');
-            if (storedOrbitsString) {
-                storedOrbitsString.forEach((orbitName: string) => {
-                    dispatch(cartSlice.actions.removeResource(orbitName));
-                });
-
-                localStorage.setItem("resources", "");
-            }
-            setRedirectUrl(`/reports/${reqID}`);
-            setShowSuccess(true);
-        } catch (error) {
-            console.error(error);
-            setShowError(true);
-        }
     };
 
     const sendPlansToBackend = async () => {
@@ -243,7 +210,7 @@ const ManageResources: FC = () => {
                     >
                         <option value="">Выберите место добычи</option>
                         <option value="Море Восточное">Море Восточное</option>
-                        <option value="Море влажности">Море влажности</option>
+                        <option value="Море Влажности">Море влажности</option>
                         <option value="Океан Бурь">Океан Бурь</option>
                     </Form.Select>
                     </Col>

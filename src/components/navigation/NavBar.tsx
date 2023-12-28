@@ -18,6 +18,7 @@ const NavigationMain: FC = () => {
         if (userToken) {
             dispatch(logoutUser(userToken));
             navigate('/resources/');
+            window.location.reload()
         }
     };
 
@@ -78,6 +79,17 @@ const NavigationMain: FC = () => {
                                         }}
                                     >
                                         Заявки
+                                    </NavDropdown.Item>
+                                )}
+                                {(userRole === '1') && (
+                                    <NavDropdown.Item
+                                        className="navbar-block"
+                                        onClick={() => {
+                                            navigate('/resources/new');
+                                            setShowDropdown(false);
+                                        }}
+                                    >
+                                        Добавить ресурс
                                     </NavDropdown.Item>
                                 )}
                                 <NavDropdown.Item

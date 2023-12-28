@@ -29,6 +29,9 @@ const ResPage: FC = () => {
                 <img src={resource?.Image} className="resource-image" alt="картинка" />
                 <h1 className="resource-title">{resource.ResourceName}</h1>
                 <p className="resource-info">Этот ресурс {resource.IsAvailable ? 'еще есть' : 'закончился'}</p>
+                <p className="resource-info">Плотность: {resource.Density}</p>
+                <p className="resource-info">Токсичность: {resource.IsToxic ? 'да' : 'нет'}</p>
+                <p className="resource-info">Спрос: {resource.Demand}</p>
                 <p className="resource-info">Особенности: {resource.Desc}</p>
                 <a href="../resources" className="home-link">
                   <span className="home-button">На главную страницу</span>

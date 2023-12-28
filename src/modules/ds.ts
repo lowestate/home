@@ -3,7 +3,10 @@ export interface Resource {
     ResourceName: string,
     IsAvailable: boolean,
     Image: string,
-    Desc: string
+    Desc: string,
+    Density: number,
+    IsToxic: boolean,
+    Demand: number
 }
 
 export interface User {

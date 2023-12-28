@@ -1,15 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const resourceFromOcean = localStorage.getItem('resourceFromOcean')
-    ? localStorage.getItem('resourceFromOcean')
-    : '';
-
-const resourceFromVost = localStorage.getItem('resourceFromVost')
-    ? localStorage.getItem('resourceFromVost')
-    : '';
-    
-const resourceFromVlazh = localStorage.getItem('resourceFromVlazh')
-    ? localStorage.getItem('resourceFromVlazh')
+const resourceWithHighDemand = localStorage.getItem('resourcesWithHighDemand')
+    ? localStorage.getItem('resourcesWithHighDemand')
     : '';
 
 const resName = localStorage.getItem('resName')
@@ -20,9 +12,7 @@ const requestStatus = localStorage.getItem('requestStatus')
     : '';
 
 const initialState = {
-    resourceFromOcean,
-    resourceFromVost,
-    resourceFromVlazh,
+    resourceWithHighDemand,
     resName,
     requestStatus,
 }
@@ -31,17 +21,9 @@ const filtersSlice = createSlice({
     name: 'filters',
     initialState,
     reducers: {
-        setResourcesFromOcean(state, {payload}) {
-            state.resourceFromOcean = payload
-            localStorage.setItem('resourcesFromOcean', payload)
-        },
-        setResourcesFromVlazh(state, {payload}) {
-            state.resourceFromVlazh = payload
-            localStorage.setItem('resourceFromVlazh', payload)
-        },
-        setResourcesFromVost(state, {payload}) {
-            state.resourceFromVost = payload
-            localStorage.setItem('resourceFromVost', payload)
+        setResourcesWithHighDemand(state, {payload}) {
+            state.resourceWithHighDemand = payload
+            localStorage.setItem('resourcesWithHighDemand', payload)
         },
         setResourceName(state, {payload}) {
             state.resName = payload

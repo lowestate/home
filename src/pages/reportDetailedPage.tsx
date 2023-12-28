@@ -1,5 +1,5 @@
 import { FC, useRef, useState, useEffect, ChangeEvent } from "react";
-import { ListGroup, ListGroupItem, Button, FormGroup, FormSelect, Col, Modal, Row, FormControl } from "react-bootstrap";
+import { ListGroup, ListGroupItem, Button, FormGroup, FormSelect, Col, Modal, Row, FormControl, Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Form } from "react-bootstrap";
 import store from "../store/store";
@@ -11,6 +11,7 @@ import { getDetailedReport } from "../modules/get_detailed_report";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { getAllResources } from "../modules/get_all_resources";
+import { getExtractionData } from "../modules/get_extraction_data";
 
 interface InputChangeInterface {
     target: HTMLInputElement;
@@ -19,6 +20,7 @@ interface InputChangeInterface {
 const ReportDetailedPage: FC = () => {
     const [resourceNames, setResourceNames] = useState<string[]>();
     const [resources, setResources] = useState<Resource[]>();
+    const [extractions, setExtraction] = useState<number[][] | undefined>()
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
     const { userToken, userRole } = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
@@ -56,8 +58,10 @@ const ReportDetailedPage: FC = () => {
             }
 
             const orbits = await getReportResources(+reqIdString, userToken);
-            console.log(orbits)
             setResources(orbits)
+            const extractions = await getExtractionData(+reqIdString, userToken)
+            console.log("---",extractions)
+            setExtraction(extractions)
             var orbitNames: string[] = [];
             if (orbits) {
                 for (let orbit of orbits) {
@@ -95,7 +99,25 @@ const ReportDetailedPage: FC = () => {
         }
     };
 
-    
+    const formatDate = (dateString: string | undefined) => {
+        if (!dateString) {
+            return 'Не завершена';
+        }
+
+        const options: Intl.DateTimeFormatOptions = {
+            timeZone: 'UTC',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+        };
+
+        const date = new Date(dateString);
+
+        return new Intl.DateTimeFormat('ru-RU', options).format(date);
+    };
 
     const sendChanges = async (status: string) => {
         if (!userToken) {
@@ -113,6 +135,8 @@ const ReportDetailedPage: FC = () => {
             Month: "",
             Place: ""
         });
+
+        navigate("/reports/")
     };
 
     return(
@@ -137,30 +161,68 @@ const ReportDetailedPage: FC = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <h1>Отчет по добыче #{req?.ID}</h1>
-            <p>Статус: {req?.Status}</p>
-            <p>Место добычи: {req?.Place}</p>
-            <p>Месяц: {req?.Month}</p>
-            <h4>Ресурсы:</h4>
-            <ListGroup className="list-group" style={{ width: '340px', height: '300px'}}>
-                {resources?.map((resource) => (
-                    <ListGroupItem key={resource.ID} className="list-group-item">
-                        <div style={{ width: '150px', height: '15px' }}>
-                            {resource.Image && (
-                                <img
-                                    src={resource?.Image}
-                                    onError={(e) => { e.currentTarget.src = '/DEFAULT.jpg' }}
-                                    style={{ width: '150px', height: '120px', position: 'absolute', right: '0' }}
-                                />
-                            )}
-                        </div>
-                        <div style={{ width: '150px', height: '100px' }}>
-                            {resource.ResourceName}
-                        </div>
-                        
-                    </ListGroupItem>
-                ))}
-            </ListGroup>
+            <Table bordered striped style={{ marginTop: '20px' }}>
+                <tbody>
+                    <tr>
+                        <td><strong>Статус</strong></td>
+                        <td><strong>Дата создания</strong></td>
+                        <td><strong>Дата последнего изменения</strong></td>
+                        <td><strong>Дата завершения</strong></td>
+                        <td><strong>Место добычи</strong></td>
+                        <td><strong>Месяц</strong></td>
+                    </tr>
+                    <tr>
+                        <td>{req?.Status}</td>
+                        <td>{formatDate(req?.DateCreated)}</td>
+                        <td>{formatDate(req?.DateProcessed)}</td>
+                        <td>{formatDate(req?.DateFinished)}</td>
+                        <td>{req?.Place}</td>
+                        <td>{req?.Month}</td>
+                    </tr>
+                </tbody>
+            </Table>
+            <h4>Состав заявки:</h4>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Table bordered striped style={{ width: '600px' }}>
+                    <thead>
+                        <tr>
+                            <th style={{ width: '50px' }}>Название ресурса</th>
+                            <th style={{ width: '40px' }}>Картинка</th>
+                            <th style={{ width: '50px' }}>Добыча по плану</th>
+                            <th style={{ width: '50px' }}>Добыто по факту</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {resources?.map((resource) => {
+                        let extraction_data: number[] | undefined;
+
+                        if (extractions) {
+                            extraction_data = extractions.find((item) => item[0] === resource.ID);
+                        }
+
+                        return (
+                            <tr key={resource.ID}>
+                                <td style={{ width: '50px', height: '90px' }}>
+                                    {resource.ResourceName}
+                                </td>
+                                <td style={{ width: '40px', height: '40px', position: 'relative' }}>
+                                    {extractions && (
+                                        <img
+                                            src={resource?.Image}
+                                            onError={(e) => { e.currentTarget.src = '/DEFAULT.jpg' }}
+                                            style={{ width: '90%', height: '90%', position: 'absolute', right: '0' }}
+                                        />
+                                    )}
+                                </td>
+                                <td style={{ width: '50px' }}>{extraction_data ? extraction_data[1] : '-'}</td>
+                                <td style={{ width: '50px' }}>{extraction_data ? extraction_data[2] : '-'}</td>
+                            </tr>
+                        );
+                    })}
+
+                        </tbody>
+                </Table>
+            </div>
             <Form>
                 <FormGroup className="form-group">
                     {userRole === '1' && req?.Status === 'На рассмотрении' && (

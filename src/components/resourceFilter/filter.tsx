@@ -4,26 +4,18 @@ import '../../styles/filter.style.css';
 
 interface ResourceFilterProps {
   name: string | null;
-  oceanOnly: string | null;
-  vostOnly: string | null;
-  vlazhOnly: string | null;
+  highDemand: string | null;
   setName: (value: string) => void;
-  setOcean: (value: string) => void;
-  setVost: (value: string) => void;
-  setVlazh: (value: string) => void;
+  setHighDemand: (value: string) => void;
   applyFilters: () => void;
   clearFilters: () => void;
 }
 
 const ResourceFilter: React.FC<ResourceFilterProps> = ({
   name,
-  oceanOnly,
-  vostOnly,
-  vlazhOnly,
+  highDemand,
   setName,
-  setOcean,
-  setVost,
-  setVlazh,
+  setHighDemand,
   applyFilters,
   clearFilters,
 }) => {
@@ -44,23 +36,9 @@ const ResourceFilter: React.FC<ResourceFilterProps> = ({
         <Col>
           <FormCheck
             type="checkbox"
-            label="Океан Бурь"
-            checked={oceanOnly === '1'}
-            onChange={() => setOcean(oceanOnly === '1' ? '' : '1')}
-          />
-          <FormCheck
-            type="checkbox"
-            label="Море Восточное"
-            checked={vostOnly === '0'}
-            onChange={() => setVost(vostOnly === '1' ? '' : '1')}
-          />
-        </Col>
-        <Col>
-          <FormCheck
-            type="checkbox"
-            label="Море Влажности"
-            checked={vlazhOnly === '1'}
-            onChange={() => setVlazh(vlazhOnly === '1' ? '' : '1')}
+            label="Высокий спрос"
+            checked={highDemand === '1'}
+            onChange={() => setHighDemand(highDemand === '1' ? '' : '1')}
           />
         </Col>
       </Row>

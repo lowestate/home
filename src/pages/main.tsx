@@ -14,6 +14,8 @@ import store from '../store/store';
 import ReportsPage from './reportsPage';
 import ReportDetailedPage from './reportDetailedPage';
 import ManageResources from './manageResourcesPage';
+import NewResPage from './newResourcePage';
+import EditPage from './editPage';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -24,6 +26,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/resources" Component={HomePage} />
           <Route path="/resources/:title" Component={ResPage} />
+          <Route path="/resources/:title/edit" Component={EditPage} />
+          <Route path="/resources/new" Component={NewResPage} />
           <Route path="/reports" Component={ReportsPage} />
           <Route path="/reports/:title" Component={ReportDetailedPage} />
           <Route path="/manage_reports" Component={ManageResources} />

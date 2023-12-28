@@ -23,14 +23,9 @@ const HomePage: FC = () => {
     const { resName } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
     const [name, setName] = useState(resName);
 
-    const { resourceFromOcean } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
-    const [oceanOnly, setOcean] = useState(resourceFromOcean);
+    const { resourceWithHighDemand } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
+    const [highDemand, setHighRemand] = useState(resourceWithHighDemand);
 
-    const { resourceFromVost } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
-    const [vostOnly, setVost] = useState(resourceFromOcean);
-
-    const { resourceFromVlazh } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
-    const [vlazhOnly, setVlazh] = useState(resourceFromOcean);
 
     useEffect(() => {
         const loadDraftRequest = async () => {
@@ -55,7 +50,7 @@ const HomePage: FC = () => {
     
         const loadOrbits = async () => {
           try {
-            const result = await getAllResources(name?.toString(), oceanOnly?.toString(), vostOnly?.toString());
+            const result = await getAllResources(name?.toString(), resourceWithHighDemand?.toString());
             setResources(result);
           } catch (error) {
             console.error("Ошибка при загрузке объектов:", error);
@@ -68,11 +63,9 @@ const HomePage: FC = () => {
 
     const applyFilters = async () => {
         try {
-        const data = await getAllResources(name?.toString(), oceanOnly?.toString(), vostOnly?.toString(), vlazhOnly?.toString());
+        const data = await getAllResources(name?.toString(), resourceWithHighDemand?.toString());
         dispatch(filtersSlice.actions.setResourceName(name));
-        dispatch(filtersSlice.actions.setResourcesFromOcean(oceanOnly));
-        dispatch(filtersSlice.actions.setResourcesFromVost(vostOnly));
-        dispatch(filtersSlice.actions.setResourcesFromVlazh(vlazhOnly));
+        dispatch(filtersSlice.actions.setResourcesWithHighDemand(highDemand));
 
         setResources(data);
 
@@ -84,14 +77,10 @@ const HomePage: FC = () => {
 
     const clearFilters = async () => {
         setName('');
-        setOcean('');
-        setVost('');
-        setVlazh('');
+        setHighRemand('');
 
         dispatch(filtersSlice.actions.setResourceName(''));
-        dispatch(filtersSlice.actions.setResourcesFromOcean(''));
-        dispatch(filtersSlice.actions.setResourcesFromVost(''));
-        dispatch(filtersSlice.actions.setResourcesFromVlazh(''));
+        dispatch(filtersSlice.actions.setResourcesWithHighDemand(''));
 
         try {
         const data = await getAllResources();
@@ -115,13 +104,9 @@ const HomePage: FC = () => {
         <div>
             <ResourceFilter
                 name={name}
-                oceanOnly={oceanOnly}
-                vostOnly={vostOnly}
-                vlazhOnly={vlazhOnly}
+                highDemand={highDemand}
                 setName={setName}
-                setOcean={setOcean}
-                setVost={setVost}
-                setVlazh={setVlazh}
+                setHighDemand={setHighRemand}
                 applyFilters={applyFilters}
                 clearFilters={clearFilters}
             />

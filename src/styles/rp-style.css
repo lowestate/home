@@ -12,7 +12,7 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-top: 40px;
-    width: 33%; /* Ширина 30% от ширины страницы */
+    width: 50%; /* Ширина 30% от ширины страницы */
     max-height: 90vh; /* Максимальная высота 70% от высоты страницы */
     overflow: hidden; /* Скрываем возможное переполнение контента */
     box-sizing: border-box; /* Учитываем отступы и границу в размерах элемента */
@@ -20,7 +20,7 @@
 }
 
 .resource-image {
-    max-width: 80%;
+    max-width: 40%;
     height: auto;
     border-radius: 5px;
     margin-bottom: 10px; /* Уменьшаем отступ снизу */
