@@ -12,6 +12,7 @@ import { getReportResources } from '../modules/get_report_resources';
 import filtersSlice from '../store/filterSlice';
 import ResourceFilter from '../components/resourceFilter/filter';
 import getReportByStatus from '../modules/get_report_by_status';
+import ResourceTable from '../components/resourceTable/resourceTable';
 
 const HomePage: FC = () => {
     const [resources, setResources] = useState<Resource[]>([]);
@@ -19,7 +20,7 @@ const HomePage: FC = () => {
     const navigate = useNavigate();
     const { userToken, userRole, userName } = useSelector((state: ReturnType<typeof store.getState>) => state.auth)
     const { added } = useSelector((state: ReturnType<typeof store.getState>) => state.cart)
-
+    const [isStatusChanging, setIsStatusChanging] = useState(false);
     const { resName } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
     const [name, setName] = useState(resName);
 
@@ -100,31 +101,60 @@ const HomePage: FC = () => {
         setResources((resources) => resources.filter((resource) => resource.ResourceName !== orbitName));
     };
 
+    const [viewType, setViewType] = useState<'cards' | 'table'>('cards');
+
+    const toggleViewType = () => {
+        setViewType((prevType) => (prevType === 'cards' ? 'table' : 'cards'));
+    };
+
     return (
-        <div>
-            <ResourceFilter
-                name={name}
-                highDemand={highDemand}
-                setName={setName}
-                setHighDemand={setHighRemand}
-                applyFilters={applyFilters}
-                clearFilters={clearFilters}
-            />
-            <div className="card_group">
-                {resources.map((resource, index) => (
-                <ResCard
-                    key={index}
-                    imageUrl={resource.Image}
-                    resourceName={resource.ResourceName}
-                    resourceStatus={resource.IsAvailable}
-                    resourceDetailed={`/resources/${resource.ResourceName}`}
-                    changeStatus={`/resources/change_status/${resource.ResourceName}`}
-                    onStatusChange={handleStatusChange}
+      <div>
+          {userRole === '1' && (
+              <div>
+                  <label>
+                      <input type="radio" value="cards" checked={viewType === 'cards'} onChange={toggleViewType} />
+                      Карточки
+                  </label>
+                  <label>
+                      <input type="radio" value="table" checked={viewType === 'table'} onChange={toggleViewType} />
+                      Таблица
+                  </label>
+              </div>
+          )}
+
+          <ResourceFilter
+              name={name}
+              highDemand={highDemand}
+              setName={setName}
+              setHighDemand={setHighRemand}
+              applyFilters={applyFilters}
+              clearFilters={clearFilters}
+          />
+
+          <div className="card_group">
+              {viewType === 'cards' &&
+                  resources.map((resource, index) => (
+                      <ResCard
+                          key={index}
+                          imageUrl={resource.Image}
+                          resourceName={resource.ResourceName}
+                          resourceStatus={resource.IsAvailable}
+                          resourceDetailed={`/resources/${resource.ResourceName}`}
+                          changeStatus={`/resources/change_status/${resource.ResourceName}`}
+                          onStatusChange={handleStatusChange}
+                      />
+                  ))}
+          </div>
+
+          {userRole === '1' && viewType === 'table' && (
+                <ResourceTable
+                    orbits={resources}
+                    handleStatusChange={handleStatusChange}
+                    isStatusChanging={isStatusChanging}
                 />
-                ))}
-            </div>
-        </div>
-    );
+            )}
+      </div>
+  );
 };
 
 export default HomePage;
