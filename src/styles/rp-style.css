@@ -1,45 +1,47 @@
-.resource-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70vh;
-    margin: 0; /* Убираем внешние отступы */
-}
-
 .resource-container {
     text-align: center;
     background-color: rgba(54, 54, 54, 0.7);
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-top: 40px;
-    width: 50%; /* Ширина 30% от ширины страницы */
-    max-height: 90vh; /* Максимальная высота 70% от высоты страницы */
-    overflow: hidden; /* Скрываем возможное переполнение контента */
-    box-sizing: border-box; /* Учитываем отступы и границу в размерах элемента */
-    padding: 5px; /* Уменьшаем внутренние отступы */
+    width: 50%;
+    max-height: 100vh;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 5px;
+    padding-bottom: 20px;
+    margin: 0 auto;
+    display: flex; /* Добавлено */
+    flex-direction: column; /* Добавлено */
+}
+
+.resource-details {
+    display: flex;
+    align-items: flex-start;
 }
 
 .resource-image {
     max-width: 40%;
     height: auto;
     border-radius: 5px;
-    margin-bottom: 10px; /* Уменьшаем отступ снизу */
-}
-
-.resource-details {
-    color: #d6d6d6;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 10px;
+    margin-right: 10px;
 }
 
 .resource-title {
-    font-size: 28px;
+    flex: 1;
+    color: #ffffff;
+    border-radius: 5px;
+    text-align: left;
+    margin-bottom: 5px;
 }
 
 .resource-info {
+    flex: 1;
+    color: #d6d6d6;
+    border-radius: 5px;
+    text-align: left;
     font-size: 18px;
-    margin-bottom: 10px; /* Уменьшаем отступ снизу */
+    margin-bottom: 15px;
 }
 
 .home-button {
@@ -49,9 +51,9 @@
     padding: 10px 20px;
     border-radius: 5px;
     border: 1px solid #fff;
-    margin-bottom: 5px;
+    margin-top: 10px;
 }
 
 .home-link {
-    text-decoration: none;
+    text-decoration: none; /* Добавлено для убирания подчеркивания */
 }

@@ -3,7 +3,7 @@ import '../styles/hp-style.css';
 import { Resource } from '../modules/ds';
 import { getAllResources } from '../modules/get_all_resources';
 import ResCard from '../components/resourceCard/ResCard';
-import { Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import store, { useAppDispatch } from '../store/store';
 import cartSlice from '../store/cartSlice';
@@ -24,13 +24,14 @@ const HomePage: FC = () => {
     const { resName } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
     const [name, setName] = useState(resName);
 
+
     const { resourceWithHighDemand } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
     const [highDemand, setHighRemand] = useState(resourceWithHighDemand);
 
-
     useEffect(() => {
         const loadDraftRequest = async () => {
-          const result = (await getReportByStatus(userToken?.toString(), userRole, userName, 'Черновик'))
+          const result = (await getReportByStatus(userToken?.toString(), userRole?.toString(), userName?.toString(), 'Черновик'))
+          console.log("-",result)
           if (!result) {
             return
           }
@@ -92,14 +93,17 @@ const HomePage: FC = () => {
 
     };
 
+    
     const handleStatusChange = (orbitName: string, newStatus: boolean) => {
-        setResources((resources) =>
-        resources.map((resource) =>
-            resource.ResourceName === orbitName ? { ...resource, IsAvailable: newStatus } : resource
+      setResources((resources) =>
+      resources.map((resource) =>
+          resource.ResourceName === orbitName ? { ...resource, IsAvailable: newStatus } : resource
         )
-        );
-        setResources((resources) => resources.filter((resource) => resource.ResourceName !== orbitName));
-    };
+      );
+      setResources((resources) => resources.filter((resource) => resource.ResourceName !== orbitName));
+      navigate('/resources', { replace: true });
+    }
+    
 
     const [viewType, setViewType] = useState<'cards' | 'table'>('cards');
 
@@ -109,18 +113,30 @@ const HomePage: FC = () => {
 
     return (
       <div>
-          {userRole === '1' && (
-              <div>
-                  <label>
-                      <input type="radio" value="cards" checked={viewType === 'cards'} onChange={toggleViewType} />
-                      Карточки
-                  </label>
-                  <label>
-                      <input type="radio" value="table" checked={viewType === 'table'} onChange={toggleViewType} />
-                      Таблица
-                  </label>
-              </div>
-          )}
+         {userRole === '1' && (
+          <div className="radio-group">
+            <label className="radio-label">
+              <input
+                type="radio"
+                value="cards"
+                checked={viewType === 'cards'}
+                onChange={toggleViewType}
+                className="radio-input"
+              />
+              Карточки
+            </label>
+            <label className="radio-label">
+              <input
+                type="radio"
+                value="table"
+                checked={viewType === 'table'}
+                onChange={toggleViewType}
+                className="radio-input"
+              />
+              Таблица
+            </label>
+          </div>
+        )}
 
           <ResourceFilter
               name={name}
@@ -145,7 +161,7 @@ const HomePage: FC = () => {
                       />
                   ))}
           </div>
-
+      
           {userRole === '1' && viewType === 'table' && (
                 <ResourceTable
                     orbits={resources}

@@ -35,7 +35,7 @@ const cartSlice = createSlice({
     },
     setResources(state, { payload }: PayloadAction<string[]>) {
       state.resources = Array.from(new Set([...state.resources, ...payload]));
-      localStorage.setItem('orbits', state.resources.toString());
+      localStorage.setItem('resources', state.resources.toString());
     },
   },
 });

@@ -47,7 +47,7 @@ const AuthPage: FC = () => {
   useEffect(() => {
     if (success) {
       // искусственное обновление страницы
-      navigate('/profile', { replace: true, state: { forceRefresh: true } });
+      navigate('/resources', { replace: true, state: { forceRefresh: true } });
     }
   }, [navigate, userInfo, success]);
 

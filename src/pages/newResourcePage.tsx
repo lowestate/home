@@ -89,14 +89,15 @@ const NewResPage: FC = () => {
     };
 
     return (
-        <div>
-          <h1 color = "white">Создание нового ресурса</h1>
+        <div style={{marginLeft:'15px'}}>
+          <h1 style={{color: "white"}}>Создание нового ресурса</h1>
           <FormControl
                 type="text"
                 placeholder="Название ресурса"
                 value={inputName}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => handleNameInput(e)}
                 className="mr-sm-2"
+                style={{width:'30%', marginBottom:'10px'}}
             />
     
             <FormControl
@@ -105,6 +106,7 @@ const NewResPage: FC = () => {
                 value={inputDensity}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => handleDensityInput(e)}
                 className="mr-sm-2"
+                style={{width:'30%', marginBottom:'10px'}}
             />
 
             <FormControl
@@ -113,13 +115,16 @@ const NewResPage: FC = () => {
                 value={inputIsToxic}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => handleIsToxicInput(e)}
                 className="mr-sm-2"
+                style={{width:'30%', marginBottom:'10px'}}
             />
+
             <FormControl
                 type="text"
                 placeholder="Спрос по 10-бальной шкале"
                 value={inputDemand}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => handleDemandInput(e)}
                 className="mr-sm-2"
+                style={{width:'30%', marginBottom:'10px'}}
             />
 
             <FormControl
@@ -128,6 +133,7 @@ const NewResPage: FC = () => {
                 value={inputDesc}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => handleDescInput(e)}
                 className="mr-sm-2"
+                style={{width:'30%', marginBottom:'10px'}}
             />
 
             <FormControl
@@ -136,6 +142,7 @@ const NewResPage: FC = () => {
                 value={inputImage || ''}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => handleImageInput(e)}
                 className="mr-sm-2"
+                style={{width:'30%', marginBottom:'10px'}}
             />
             
             <Button className="common-button" 

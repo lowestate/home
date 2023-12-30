@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Container, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import store from "../store/store";
 import { ExtractionReports } from "../modules/ds";
@@ -98,6 +98,7 @@ const ReportCard: FC = () => {
 
     return (
         <>
+        <Container>
             {!userToken &&
                 <h3> Вам необходимо войти в систему! </h3>
             }
@@ -121,7 +122,7 @@ const ReportCard: FC = () => {
                             <th>ID заявки</th>
                             <th>Статус</th>
                             <th>Дата создания</th>
-                            <th>Дата последнего изменения</th>
+                            <th>Дата изменения</th>
                             <th>Дата окончания</th>
                             <th>Месяц</th>
                             <th>Место</th>
@@ -140,7 +141,8 @@ const ReportCard: FC = () => {
                                 month={item.Month} />
                         ))}
                     </tbody>
-                </Table><div>
+                </Table>
+                <div>
                         {transfReqs.length > 6 && (
                             <Pagination
                                 currentPage={currentPage}
@@ -151,6 +153,7 @@ const ReportCard: FC = () => {
                         )}
                     </div></>
             )}
+        </Container>
         </>
     )
 }

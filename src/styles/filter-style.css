@@ -1,0 +1,24 @@
+.orbit-input {
+    width: 200px;
+    border-radius: 5px; /* или любое другое значение, чтобы сделать поле округленным */
+}
+    
+.high-demand-checkbox {
+    margin-top: 10px; /* или любое другое значение, чтобы создать отступ между полем поиска и чекбоксом */
+    color: white;
+}
+    
+.orbit-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px; /* или любое другое значение, чтобы создать отступ между чекбоксом и кнопками */
+}
+    
+.search-button {
+    background-color: #001f3f; /* темно-синий цвет для кнопки поиска */
+    color: #fff; /* белый цвет текста */
+}
+
+.clear-button {
+    margin-left: -560px; /* добавляем отступ слева для кнопки "Очистить" */
+}

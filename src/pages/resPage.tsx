@@ -21,28 +21,34 @@ const ResPage: FC = () => {
         loadResource()
     }, [title]);
 
-  return (  
+    return (  
       <div className="resource-body">
         <div className="resource-container">
-            {resource ? (
-              <div className="resource-details">
-                <img src={resource?.Image} className="resource-image" alt="картинка" />
+          {resource ? (
+            <><div className="resource-details">
+              <img src={resource?.Image} className="resource-image" alt="картинка" />
+              <div className="info">
                 <h1 className="resource-title">{resource.ResourceName}</h1>
                 <p className="resource-info">Этот ресурс {resource.IsAvailable ? 'еще есть' : 'закончился'}</p>
                 <p className="resource-info">Плотность: {resource.Density}</p>
                 <p className="resource-info">Токсичность: {resource.IsToxic ? 'да' : 'нет'}</p>
-                <p className="resource-info">Спрос: {resource.Demand}</p>
-                <p className="resource-info">Особенности: {resource.Desc}</p>
-                <a href="../resources" className="home-link">
-                  <span className="home-button">На главную страницу</span>
-                </a>
+                <p className="resource-info">Спрос (по 10-ти бальной шкале): {resource.Demand}</p>
               </div>
-            ) : (
-              <p>Loading...</p>
-            )}
-          </div>
+            </div>
+            <p className="resource-info">
+              Особенности: {resource.Desc}
+            </p>
+            <a href="../resources" className="home-link">
+              <span className="home-button">На главную страницу</span>
+            </a>
+            </>
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
-  )
+      </div>
+    );
+    
 }
 
 export default ResPage

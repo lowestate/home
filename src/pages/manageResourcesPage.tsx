@@ -166,98 +166,128 @@ const ManageResources: FC = () => {
                     <Button variant="success" onClick={handleSuccessClose}>
                         Просмотр
                     </Button>
-                    <Button onClick={() => (navigate(`/resources`))} variant="primary" className="button">
+                    <Button onClick={() => navigate(`/resources`)} variant="primary" className="button">
                         К ресурсам
                     </Button>
                 </Modal.Footer>
             </Modal>
-            {!userToken && (<>
-                <h3> Вам необходимо войти в систему </h3>
-                <Button onClick={() => (navigate(`/auth`))} variant="primary" className="button">
-                    Войти
-                </Button>
-            </>)}
-            {userToken && (<>
-            {resources?.length !== 0 && <h3>Выбранные ресурсы:</h3>}
-            {resources?.length === 0 && <h4>Вы ещё не выбрали ни одного ресурса</h4>}
-            <ListGroup style={{ width: '500px' }}>
-                {resources?.map((resName, resID) => (
-                    <ListGroupItem key={resID}>
-                        {resName}
-                            <FormControl
-                                type="text"
-                                placeholder="Добыча по плану..."
-                                value={inputValues[resID] || ''}
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => handleResourceInputChange(e, resID)}
-                                className="mr-sm-2"
-                            />
-                        <span className="pull-right button-group" style={{ float: 'right' }}>
-                            <Button variant="danger" onClick={deleteFromCart(resName)}>
-                                Удалить
-                            </Button>
-                        </span>
-                    </ListGroupItem>
-                ))}
-            </ListGroup>
-            {resources?.length !== 0 && (
+    
+            {!userToken && (
                 <>
-                <Row>
-                <Col>
-                    <Form.Select
-                        value={inputPlace || ''}
-                        onChange={(e: ChangeEvent<HTMLSelectElement>) => handlePlaceInput(e)}
-                        className="mr-sm-2"
-                    >
-                        <option value="">Выберите место добычи</option>
-                        <option value="Море Восточное">Море Восточное</option>
-                        <option value="Море Влажности">Море влажности</option>
-                        <option value="Океан Бурь">Океан Бурь</option>
-                    </Form.Select>
-                    </Col>
-
-                    <Col>
-                    <Form.Select
-                        value={inputMonth || ''}
-                        onChange={(e: ChangeEvent<HTMLSelectElement>) => handleMonthInput(e)}
-                        className="mr-sm-2"
-                    >
-                        <option value="">Выберите месяц</option>
-                        <option value="Январь">Январь</option>
-                        <option value="Февраль">Февраль</option>
-                        <option value="Март">Март</option>
-                        <option value="Апрель">Апрель</option>
-                        <option value="Май">Май</option>
-                        <option value="Июнь">Июнь</option>
-                        <option value="Июль">Июль</option>
-                        <option value="Август">Август</option>
-                        <option value="Сентябрь">Сентябрь</option>
-                        <option value="Октябрь">Октябрь</option>
-                        <option value="Ноябрь">Ноябрь</option>
-                        <option value="Декабрь">Декабрь</option>
-                    </Form.Select>
-                    </Col>
-                <Col>
-                <Button className="common-button" 
-                        variant="success" 
-                        onClick={sendPlansToBackend} disabled={resources.length === 0}>
-                        Сформировать
-                </Button>
-                </Col>
-                <Col>
-                <Button className="common-button" 
-                        variant="danger" 
-                        onClick={deleteRequest}
-                        disabled={resources.length === 0}>
-                        Отменить
-                </Button>
-                </Col>
-                </Row>
+                    <h3> Вам необходимо войти в систему </h3>
+                    <Button onClick={() => navigate(`/auth`)} variant="primary" className="button">
+                        Войти
+                    </Button>
                 </>
             )}
-            <button onClick={() => navigate("/resources")}>К ресурсам</button>
-            </>)}
+            {userToken && (
+                <>
+                    {resources?.length !== 0 && <h3 style={{ color: '#fff', marginLeft: '10px' }}>Выбранные ресурсы:</h3>}
+                    {resources?.length === 0 && (
+                        <h4 style={{ color: '#fff', marginLeft: '10px' }}>Вы ещё не выбрали ни одного ресурса</h4>
+                    )}
+                    <ListGroup style={{ width: '500px', margin: '0 auto' }}>
+                        {resources?.map((resName, resID) => (
+                            <ListGroupItem key={resID} style={{ textAlign: 'left' }}>
+                                {resName}
+                                <FormControl
+                                    style={{ width: '35%' }}
+                                    type="text"
+                                    placeholder="Добыча по плану..."
+                                    value={inputValues[resID] || ''}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => handleResourceInputChange(e, resID)}
+                                />
+                                <span style={{ float: 'right' }}>
+                                    <Button variant="danger" onClick={() => deleteFromCart(resName)}>
+                                        Удалить
+                                    </Button>
+                                </span>
+                            </ListGroupItem>
+                        ))}
+                    </ListGroup>
+                    {resources?.length !== 0 && (
+                        <>
+                            <Row style={{ margin: '20px auto', textAlign: 'center', width: '41%' }}>
+                                <Col>
+                                    <Form.Select
+                                        value={inputPlace || ''}
+                                        onChange={(e: ChangeEvent<HTMLSelectElement>) => handlePlaceInput(e)}
+                                    >
+                                        <option value="">Выберите место добычи</option>
+                                        <option value="Море Восточное">Море Восточное</option>
+                                        <option value="Море Влажности">Море Влажности</option>
+                                        <option value="Океан Бурь">Океан Бурь</option>
+                                    </Form.Select>
+                                </Col>
+    
+                                <Col>
+                                    <Form.Select
+                                        value={inputMonth || ''}
+                                        onChange={(e: ChangeEvent<HTMLSelectElement>) => handleMonthInput(e)}
+                                    >
+                                        <option value="">Выберите месяц</option>
+                                        <option value="Январь">Январь</option>
+                                        <option value="Февраль">Февраль</option>
+                                        <option value="Март">Март</option>
+                                        <option value="Апрель">Апрель</option>
+                                        <option value="Май">Май</option>
+                                        <option value="Июнь">Июнь</option>
+                                        <option value="Июль">Июль</option>
+                                        <option value="Август">Август</option>
+                                        <option value="Сентябрь">Сентябрь</option>
+                                        <option value="Октябрь">Октябрь</option>
+                                        <option value="Ноябрь">Ноябрь</option>
+                                        <option value="Декабрь">Декабрь</option>
+                                    </Form.Select>
+                                </Col>
+                            </Row>
+                            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+                                <Col>
+                                    <Button
+                                        className="common-button"
+                                        variant="success"
+                                        onClick={sendPlansToBackend}
+                                        disabled={resources.length === 0}
+
+                                    >
+                                        Сформировать
+                                    </Button>
+                                </Col>
+                                <Col>
+                                    <Button
+                                        className="common-button"
+                                        variant="danger"
+                                        onClick={deleteRequest}
+                                        disabled={resources.length === 0}
+                                        style={{marginTop: '10px'}}
+                                    >
+                                        Отменить
+                                    </Button>
+                                </Col>
+                            </div>
+                        </>
+                    )}
+                    <div style={{ textAlign: 'center' }}>
+                        <button
+                            onClick={() => navigate("/resources")}
+                            style={{
+                                backgroundColor: '#001f3f',
+                                color: '#fff',
+                                borderRadius: '8px',
+                                border: '1px solid',
+                                padding: '8px 16px',
+                                cursor: 'pointer',
+                                marginTop: '10px', // Добавленный отступ сверху
+                            }}
+                        >
+                            К ресурсам
+                        </button>
+                    </div>
+                </>
+            )}
         </div>
     );
+    
 };              
 
 export default ManageResources;
