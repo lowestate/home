@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ExtractionReports } from './ds';
 
-export const getDetailedReport = async (userToken = '', req_id = ''): Promise<ExtractionReports> => {
+export const getDetailedReport = async (userToken = '', report_id = ''): Promise<ExtractionReports> => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -11,7 +11,7 @@ export const getDetailedReport = async (userToken = '', req_id = ''): Promise<Ex
     };
 
     try {
-        const response = await axios.get(`/api/reports/${encodeURIComponent(req_id)}`, config);
+        const response = await axios.get(`/api/reports/${encodeURIComponent(report_id)}`, config);
         const { data } = response;
         console.log(data);
         return data;

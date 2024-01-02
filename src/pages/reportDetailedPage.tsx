@@ -75,23 +75,23 @@ const ReportDetailedPage: FC = () => {
         return;
       }
 
-      const orbits = await getReportResources(+reqIdString, userToken);
-      setResources(orbits);
+      const resources = await getReportResources(+reqIdString, userToken);
+      setResources(resources);
       const extractions = await getExtractionData(+reqIdString, userToken);
       console.log("---", extractions);
       setExtraction(extractions);
-      var orbitNames: string[] = [];
-      if (orbits) {
-        for (let orbit of orbits) {
-          orbitNames.push(orbit.ResourceName);
+      var resNames: string[] = [];
+      if (resources) {
+        for (let resource of resources) {
+          resNames.push(resource.ResourceName);
         }
-        setResourceNames(orbitNames);
+        setResourceNames(resNames);
       }
     };
 
     const fetchOrbits = async () => {
-      const orbits = await getAllResources();
-      setOptions(orbits);
+      const resources = await getAllResources();
+      setOptions(resources);
     };
 
     loadReq();
@@ -249,7 +249,7 @@ const ReportDetailedPage: FC = () => {
       </div>
       <Form>
         <FormGroup className="form-group">
-          {userRole === '1' && req?.Status === 'На рассмотрении' && (
+          {userRole === '1' && req?.Status === 'Сформирована' && (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Button className="common-button" variant="warning" onClick={() => sendChanges('Отклонена')}>Отклонить</Button>
               <Button className="common-button" variant="success" onClick={() => sendChanges('Одобрена')}>Одобрить</Button>

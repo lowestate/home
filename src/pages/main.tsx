@@ -25,11 +25,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Breadcrumbs />
         <Routes>
           <Route path="/resources" Component={HomePage} />
-          <Route path="/resources/:title" Component={ResPage} />
-          <Route path="/resources/:title/edit" Component={EditPage} />
+          <Route path="/resources/:resource_name" Component={ResPage} />
+          <Route path="/resources/:resource_name/edit" Component={EditPage} />
           <Route path="/resources/new" Component={NewResPage} />
           <Route path="/reports" Component={ReportsPage} />
-          <Route path="/reports/:title" Component={ReportDetailedPage} />
+          <Route path="/reports/:report_id" Component={ReportDetailedPage} />
           <Route path="/manage_reports" Component={ManageResources} />
           <Route path="/auth" Component={AuthPage} />
           <Route path="/profile" Component={AccountPage} />

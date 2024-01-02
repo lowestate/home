@@ -8,7 +8,7 @@ export const createReport = async(resource: string, userToken: string): Promise<
       },
     }
   return axios.post(
-      `/api/reports/${encodeURIComponent(resource)}/add`,
+      `/api/resources/${encodeURIComponent(resource)}/add`,
       {
         'resources': resource,
       },

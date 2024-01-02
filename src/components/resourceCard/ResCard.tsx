@@ -9,6 +9,7 @@ import cartSlice from '../../store/cartSlice';
 import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
 import { createReport } from '../../modules/create_report';
 import { changeResource } from '../../modules/edit_resource';
+import { deleteResourceFromMM } from '../../modules/delete_resource_from_mm';
 
 interface Props {
     imageUrl: string;
@@ -21,10 +22,12 @@ interface Props {
 
 const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDetailed, onStatusChange}) => {
     const [isStatusChanging, setIsStatusChanging] = useState(false);
+    const [isResourceAdded, setIsResourceAdded] = useState(false);
     const navigate = useNavigate();
     const dispatch = useAppDispatch()
 
     const { userRole, userToken } = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
+    const addedResources = localStorage.getItem("resources")
 
     const handleStatusChange = async () => {
         setIsStatusChanging(true);
@@ -48,9 +51,17 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
             if(!userToken){
                 return
             }
-            const response = await createReport(resourceName, userToken);
-            localStorage.setItem("reqID", response.data)
-            dispatch(cartSlice.actions.addResource(resourceName));
+            if (!isResourceAdded) {
+              const response = await createReport(resourceName, userToken);
+              setIsResourceAdded(true)
+              localStorage.setItem("reqID", response.data)
+              dispatch(cartSlice.actions.addResource(resourceName));
+            } else {
+              console.log(resourceName, localStorage.getItem("reqID"))
+              await deleteResourceFromMM(resourceName, localStorage.getItem("reqID"), userToken);
+              setIsResourceAdded(false)
+              dispatch(cartSlice.actions.removeResource(resourceName));
+            }
         } catch (error) {
             console.error('Ошибка:', error);
         }
@@ -158,7 +169,7 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
                   backgroundColor: 'rgba(141, 27, 27, 0.7)',
                 }}
               >
-                Добавить
+                {isResourceAdded ? 'Убрать' : 'Добавить'}
               </Button>
             )}
           </Card.Body>

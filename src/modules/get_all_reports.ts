@@ -1,7 +1,7 @@
 import axios, {AxiosError} from 'axios';
 import { ExtractionReports } from './ds';
 
-export const getReports = async (userToken = '', userName = '', status = ''): Promise<ExtractionReports[]> => {
+export const getReports = async (userToken = '', userName = '', status = '', dateStart = '', dateEnd = ''): Promise<ExtractionReports[]> => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -12,6 +12,8 @@ export const getReports = async (userToken = '', userName = '', status = ''): Pr
     const queryParams = new URLSearchParams({
         username: userName,
         status: status,
+        date_start: dateStart,
+        date_end: dateEnd
     });
 
     return axios.get(`/api/reports?${queryParams.toString()}`, config)

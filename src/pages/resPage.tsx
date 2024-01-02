@@ -7,19 +7,19 @@ import { Resource } from '../modules/ds'
 const ResPage: FC = () => {
     const [resource, setResource] = useState<Resource>()
 
-    const { title } = useParams();
+    const { resource_name } = useParams();
 
     useEffect(() => {
-        console.log("res_name: ", title)
+        console.log("res_name: ", resource_name)
 
         const loadResource = async () => {
-            const result = await getResourceByName(String(title))
+            const result = await getResourceByName(String(resource_name))
             console.log(result)
             setResource(result)
         }
 
         loadResource()
-    }, [title]);
+    }, [resource_name]);
 
     return (  
       <div className="resource-body">
@@ -36,7 +36,7 @@ const ResPage: FC = () => {
               </div>
             </div>
             <p className="resource-info">
-              Особенности: {resource.Desc}
+              Описание: {resource.Desc}
             </p>
             <a href="../resources" className="home-link">
               <span className="home-button">На главную страницу</span>

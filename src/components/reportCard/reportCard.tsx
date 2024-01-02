@@ -1,12 +1,14 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import store from '../../store/store';
 // import '../../styles/reportTable.style.css';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getUsernameByUUID } from '../../modules/get_username';
 
 interface TransfReqRowProps {
     id: number;
+    username: string;
     status: string;
     dateCreated?: string;
     dateProcessed?: string;
@@ -17,6 +19,7 @@ interface TransfReqRowProps {
 
 const TransfReqRow: FC<TransfReqRowProps> = ({
     id,
+    username,
     status,
     dateCreated,
     dateProcessed,
@@ -24,6 +27,7 @@ const TransfReqRow: FC<TransfReqRowProps> = ({
     month,
     place
 }) => {
+    const [originalUsername, setOriginalUsername] = useState<string | null>(null);
     const formatDate = (dateString: string | undefined) => {
         if (!dateString) {
             return 'Не завершена';
@@ -44,9 +48,23 @@ const TransfReqRow: FC<TransfReqRowProps> = ({
         return new Intl.DateTimeFormat('ru-RU', options).format(date);
     };
 
+    useEffect(() => {
+        const getUsername = async () => {
+          try {
+            const result = await getUsernameByUUID(username);
+            setOriginalUsername(result);
+          } catch (error) {
+            console.error('Error fetching username:', error);
+          }
+        };
+    
+        getUsername();
+      }, [username]);
+
     return (
         <tr>
             <td><Link to={`/reports/${id}`}>{id}</Link></td>
+            <td>{originalUsername}</td>
             <td>{status}</td>
             <td>{formatDate(dateCreated)}</td>
             <td>{formatDate(dateProcessed)}</td>

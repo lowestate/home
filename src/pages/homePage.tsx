@@ -38,12 +38,12 @@ const HomePage: FC = () => {
           if (result[0]?.ID) {
             localStorage.setItem("reqID", result[0].ID.toString());
             const orbitsData = await getReportResources(result[0].ID, userToken?.toString());
-            var orbitNames: string[] = [];
+            var resNames: string[] = [];
             if (orbitsData) {
-              for (let orbit of orbitsData) {
-                orbitNames.push(orbit.ResourceName);
+              for (let resource of orbitsData) {
+                resNames.push(resource.ResourceName);
               }
-              dispatch(cartSlice.actions.setResources(orbitNames));
+              dispatch(cartSlice.actions.setResources(resNames));
             }
           };
         }
@@ -94,13 +94,13 @@ const HomePage: FC = () => {
     };
 
     
-    const handleStatusChange = (orbitName: string, newStatus: boolean) => {
+    const handleStatusChange = (resource_name: string, newStatus: boolean) => {
       setResources((resources) =>
       resources.map((resource) =>
-          resource.ResourceName === orbitName ? { ...resource, IsAvailable: newStatus } : resource
+          resource.ResourceName === resource_name ? { ...resource, IsAvailable: newStatus } : resource
         )
       );
-      setResources((resources) => resources.filter((resource) => resource.ResourceName !== orbitName));
+      setResources((resources) => resources.filter((resource) => resource.ResourceName !== resource_name));
       navigate('/resources', { replace: true });
     }
     
@@ -164,7 +164,7 @@ const HomePage: FC = () => {
       
           {userRole === '1' && viewType === 'table' && (
                 <ResourceTable
-                    orbits={resources}
+                resources={resources}
                     handleStatusChange={handleStatusChange}
                     isStatusChanging={isStatusChanging}
                 />

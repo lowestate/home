@@ -11,6 +11,8 @@ import filtersSlice from "../store/filterSlice";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../components/pagination/pagination";
 import usePagination from "../components/pagination/usePagination";
+import RequestFilter from "../components/requestFilter/requestFilter";
+import reqFiltersSlice from "../store/reqFilterSlice";
 
 const ReportCard: FC = () => {
     const { userToken, userRole, userName } = useSelector((state: ReturnType<typeof store.getState>) => state.auth)
@@ -20,6 +22,11 @@ const ReportCard: FC = () => {
 
     const { requestStatus } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
     const [reqStatus, setReqStatus] = useState(requestStatus);
+
+    const { usernameReq, dateFin, dateStart } = useSelector((state: ReturnType<typeof store.getState>) => state.req_filters);
+    const [reqUsername, setReqUsername] = useState(usernameReq);
+    const [reqDateStart, setDateStart] = useState(dateStart);
+    const [reqDateFin, setDateFin] = useState(dateFin);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -96,30 +103,107 @@ const ReportCard: FC = () => {
 
     };
 
+    const applyFiltersM = async () => {
+        try {
+            const data = await getReports(
+                userToken?.toString(),
+                userName?.toString(),
+                reqUsername?.toString(),
+                reqDateStart?.toString(),
+                reqDateFin?.toString()
+            );
+    
+            let formattedStartDate = null;
+            if (reqDateStart !== null) {
+                const startDate = new Date(reqDateStart);
+                if (!isNaN(startDate.getTime())) {
+                    formattedStartDate = startDate.toISOString().slice(0, 19).replace("T", " ");
+                }
+            }
+    
+            let formattedEndDate = null;
+            if (reqDateFin !== null) {
+                const endDate = new Date(reqDateFin);
+                if (!isNaN(endDate.getTime())) {
+                    formattedEndDate = endDate.toISOString().slice(0, 19).replace("T", " ");
+                }
+            }
+    
+            dispatch(reqFiltersSlice.actions.setUsernameReq(usernameReq));
+            dispatch(reqFiltersSlice.actions.setDateFin(formattedEndDate));
+            dispatch(reqFiltersSlice.actions.setDateStart(formattedStartDate));
+    
+            setTransfReqs(data);
+    
+            navigate('/reports', { state: { data } });
+        } catch (error) {
+            console.error("Ошибка при получении отчетов:", error);
+        }
+    };
+
+    const clearFiltersM = async () => {
+        setReqUsername('');
+        setDateFin('');
+        setDateStart('');
+
+        dispatch(reqFiltersSlice.actions.setUsernameReq(''));
+        dispatch(reqFiltersSlice.actions.setDateFin(''));
+        dispatch(reqFiltersSlice.actions.setDateStart(''));
+
+        try {
+            const result = (await getReports(userToken?.toString(), userName?.toString(), '')).filter((item) => {
+                if (userRole === '0') {
+                    return item.Client?.Username === userName;
+                } else {
+                    console.log(userName)
+                    return item.Moderator?.Username === userName;
+                }
+            });
+            setTransfReqs(result)
+        } catch (error) {
+        console.error("Ошибка загрузки ресурсов:", error);
+        }
+
+    };
+
     return (
         <>
         <Container>
             {!userToken &&
                 <h3> Вам необходимо войти в систему! </h3>
             }
-            <><div>
+            <><div>{userToken && userRole == '0' &&
                     <ReportFilter
                         reqStatus={reqStatus}
                         setReqStatus={setReqStatus}
                         applyFilters={applyFilters}
-                        clearFilters={clearFilters} />
+                        clearFilters={clearFilters} /> 
+                    }
+            </div></>
+            <><div>{userToken && userRole == '1' && 
+                    <RequestFilter
+                        usernameReq={reqUsername}
+                        dateStart={reqDateStart}
+                        dateFin={reqDateFin}
+                        setUsernameReq={setReqUsername}
+                        setDateFin={setDateFin}
+                        setDateStart={setDateStart}
+                        applyFilters={applyFiltersM}
+                        clearFilters={clearFiltersM} />
+                }
             </div></>
             {userToken && transfReqs.length === 0 &&
                 <h3> Заявки не найдены</h3>
             }
             {userToken && userRole === '1' &&
-                <p>Обработанных записей: {asyncProcessedAmount}</p>
+                <p style={{color:'white'}}>Обработанных записей: {asyncProcessedAmount}</p>
             }
             {transfReqs.length !== 0 && (
                 <><Table striped bordered hover>
                     <thead>
                         <tr>
                             <th>ID заявки</th>
+                            <th>Клиент</th>
                             <th>Статус</th>
                             <th>Дата создания</th>
                             <th>Дата изменения</th>
@@ -133,6 +217,7 @@ const ReportCard: FC = () => {
                             <TransfReqRow
                                 key={index}
                                 id={item.ID}
+                                username={item.ClientRef}
                                 status={item.Status}
                                 dateCreated={item.DateCreated}
                                 dateProcessed={item.DateProcessed}

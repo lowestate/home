@@ -29,7 +29,7 @@ const ReportFilter: React.FC<ReportFilterProps> = ({
             <option value="">Выберите статус</option>
             <option value="Удалена">Удалена</option>
             <option value="Черновик">Черновик</option>
-            <option value="На рассмотрении">На рассмотрении</option>
+            <option value="Сформирована">Сформирована</option>
             <option value="Оказана">Оказана</option>
             <option value="Отклонена">Отклонена</option>
             

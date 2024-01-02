@@ -3,12 +3,14 @@ import { useDispatch } from "react-redux";
 import authReducer from './authSlice'
 import cartSlice from "./cartSlice";
 import filtersSlice from "./filterSlice";
+import reqFiltersSlice from "./reqFilterSlice";
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
         cart: cartSlice.reducer,
-        filters: filtersSlice.reducer
+        filters: filtersSlice.reducer,
+        req_filters: reqFiltersSlice.reducer
     }
 })
 

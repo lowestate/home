@@ -22,7 +22,7 @@ const EditPage: FC = () => {
     const [inputDesc, setInputDesc] = useState('');
     const navigate = useNavigate()
     
-    const { title } = useParams();
+    const { resource_name } = useParams();
     const {userToken} = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
 
     const convertToBoolean = (value: string | undefined): boolean | undefined => {
@@ -31,7 +31,7 @@ const EditPage: FC = () => {
 
     const fetchData = async () => {
         try {
-            const result = await getResourceByName(title);
+            const result = await getResourceByName(resource_name);
             setResource(result)
         } catch (error) {
             console.error("Ошибка в получении ресурса", error);
@@ -50,7 +50,7 @@ const EditPage: FC = () => {
         try {
             await changeResource(
                 userToken,
-                title,
+                resource_name,
                 inputName,
                 parseFloat(inputDensity ?? "0"),
                 parseInt(inputDemand ?? "0", 10),

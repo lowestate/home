@@ -24,21 +24,18 @@ const ManageResources: FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const deleteFromCart = (orbitName: string) => {
-        return async (event: React.MouseEvent) => {
+    const deleteFromCart = async (resource_name: string) => {
             if (!userToken) {
                 return;
             }
             try {
-                console.log(orbitName, localStorage.getItem("reqID"))
-                await deleteResourceFromMM(orbitName, localStorage.getItem("reqID"), userToken);
-                dispatch(cartSlice.actions.removeResource(orbitName));
+                console.log(resource_name, localStorage.getItem("reqID"))
+                await deleteResourceFromMM(resource_name, localStorage.getItem("reqID"), userToken);
+                dispatch(cartSlice.actions.removeResource(resource_name));
             } catch (error) {
                 console.error(error);
                 setShowError(true);
             }
-            event.preventDefault();
-        };
     };
 
     const sendPlansToBackend = async () => {
@@ -65,15 +62,15 @@ const ManageResources: FC = () => {
                 
                 await changeReportStatus(userToken, {
                     ID: reqID,
-                    Status: "На рассмотрении",
+                    Status: "Сформирована",
                 });
     
                 localStorage.setItem("reqID", "");
     
                 const storedOrbitsString: string[] | undefined = localStorage.getItem('resources')?.split(',');
                 if (storedOrbitsString) {
-                    storedOrbitsString.forEach((orbitName: string) => {
-                        dispatch(cartSlice.actions.removeResource(orbitName));
+                    storedOrbitsString.forEach((resource_name: string) => {
+                        dispatch(cartSlice.actions.removeResource(resource_name));
                     });
     
                     localStorage.setItem("resources", "");
@@ -105,8 +102,8 @@ const ManageResources: FC = () => {
 
             const storedOrbitsString: string[] | undefined = localStorage.getItem('resources')?.split(',');
             if (storedOrbitsString) {
-                storedOrbitsString.forEach((orbitName: string) => {
-                    dispatch(cartSlice.actions.removeResource(orbitName));
+                storedOrbitsString.forEach((resource_name: string) => {
+                    dispatch(cartSlice.actions.removeResource(resource_name));
                 });
 
                 localStorage.setItem("resources", "");
