@@ -35,7 +35,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/profile" Component={AccountPage} />
 
           <Route path="/resources-front" Component={HomePage} />
-          <Route path="/resources-front/resource" Component={ResPage} />
+          <Route path="/resources-front/resource?resource_name=Реголит" Component={ResPage} />
           
         </Routes>
       </BrowserRouter>
