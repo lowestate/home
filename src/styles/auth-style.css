@@ -1,0 +1,64 @@
+.login-card {
+    text-align: center;
+    background-color: rgba(54, 54, 54, 0.7);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 30%; /* Ширина 30% от ширины страницы */
+    max-height: 70vh; /* Максимальная высота 70% от высоты страницы */
+    overflow: hidden; /* Скрываем возможное переполнение контента */
+    box-sizing: border-box; /* Учитываем отступы и границу в размерах элемента */
+    padding: 20px; /* Внутренние отступы */
+    margin: 20px auto; /* Центрируем по горизонтали и добавляем внешние отступы */
+}
+
+.login-card h1 {
+    font-size: 28px;
+    margin-bottom: 15px; /* Уменьшаем отступ снизу */
+    color: #f8f8f8; /* Цвет текста */
+}
+
+.login-card .form-group {
+    margin-bottom: 20px; /* Уменьшаем отступ снизу */
+}
+
+.login-card label {
+    font-size: 18px;
+    margin-bottom: 5px; /* Уменьшаем отступ снизу */
+    color: #f8f8f8; /* Цвет текста */
+}
+
+.login-card .input-login {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-card .button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.login-card button {
+    flex: 1; /* Растягиваем кнопки на одинаковую ширину */
+    font-size: 18px;
+    background-color: #4f4f4f;
+    color: #fff;
+    width: 40%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Плавное изменение цвета при наведении */
+    margin-right: 10px; /* Добавляем отступ справа */
+    margin-left: 10px; /* Добавляем отступ справа */
+}
+
+.login-card button:hover {
+    background-color: #333;
+}
+
+.login-card .spinner {
+    margin-top: 10px; /* Добавляем отступ сверху */
+}

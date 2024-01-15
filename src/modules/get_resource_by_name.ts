@@ -1,12 +1,13 @@
-import {Resource} from './ds'
+import axios from 'axios';
+import { Resource } from './ds';
 
-export const getResourceByName = async  (resourceName = ''): Promise<Resource> => {
-    return fetch('/api/home/' + String(resourceName),{
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    })
-        .then((response) => response.json());
-}
+export const getResourceByName = async (resourceName = ''): Promise<Resource> => {
+  try {
+    const response = await axios.get('/api/resources/' + String(resourceName),);
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Ошибка при получении ресурса');
+  }
+};

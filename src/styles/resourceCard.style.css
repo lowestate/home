@@ -1,0 +1,50 @@
+.card-container {
+    background-color: rgba(54, 54, 54, 0.7); /* Темно-серый фон с 70% непрозрачности */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-image {
+    max-width: calc(100% - 5px); /* Отступы слева и справа по 10px */
+    border-radius: 5px;
+    margin: 0 auto 5px; /* Центрирование и небольшой отступ снизу */
+    height: 200px;
+}
+
+.card-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #f8f8f8;
+}
+
+.card-info {
+    font-size: 20px;
+    font-weight: 400;
+    color: #d6d6d6;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.card-details-button,
+.card-status-button {
+    font-size: 18px;
+    color: #fff;
+    width: 90%;
+    padding: 10px;
+    border-radius: 5px;
+    border-color: #fff;
+}
+
+.card-details-button {
+    background-color: rgba(0, 0, 255, 0.7); /* Синий фон с 70% непрозрачности */
+    margin-bottom: 7px;
+}
+
+.card-status-button {
+    background-color: rgba(141, 27, 27, 0.7); /* Красный фон с 70% непрозрачности */
+}

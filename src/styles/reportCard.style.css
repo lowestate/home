@@ -1,0 +1,66 @@
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.customCard {
+    width: 100%;
+    max-width: 70vw;
+    margin: 20px auto;
+    background-color: rgba(54, 54, 54, 0.7);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column; /* Изменено на column для отрисовки элементов внутри карточки столбиком */
+}
+
+.cardBody {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column; /* Текст располагается в столбик */
+    padding: 10px 20px;
+}
+
+.info {
+    color: #d6d6d6;
+    margin-bottom: 10px; /* Добавлен отступ между текстовыми блоками */
+}
+
+.cardFooter {
+    display: flex;
+    flex-direction: row; /* Кнопки располагаются в строку */
+    justify-content: center; /* Кнопки выравниваются в конец строки */
+    margin-top: auto; /* Размещаем футер внизу карточки */
+}
+
+.edit-button .delete-button .view-button .send-button {
+    font-size: 18px;
+    padding: 10px 10px;
+    border-radius: 5px;
+    color: #ffffff;
+}
+
+.edit-button {
+    background-color: rgba(139, 103, 5, 0.7);
+    border: 1.5px solid #ffffff;
+    margin-right: 5px;
+}
+
+.delete-button {
+    background-color: rgba(148, 51, 51, 0.7);
+    border: 1.5px solid #ffffff;
+    margin-right: 5px;
+}
+
+.view-button {
+    background-color: rgba(47, 91, 135, 0.7);
+    border: 1.5px solid #ffffff;
+    margin-right: 5px;
+}
+
+.send-button {
+    background-color: rgba(47, 135, 66, 0.7);
+    border: 1px solid #ffffff;
+    margin-right: 5px;
+}
