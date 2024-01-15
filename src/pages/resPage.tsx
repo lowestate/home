@@ -24,7 +24,7 @@ const ResPage: FC = () => {
           const queryString = window.location.search;
           const urlParams = new URLSearchParams(queryString)
           const resName = urlParams.get('resource_name')
-      
+          console.log(resName)
           const loadRes = async () => {
               const result = await getResourceByName(String(resName))
               setResource(result)
@@ -57,7 +57,7 @@ const ResPage: FC = () => {
             </a>
             </>
           ) : (
-            <p>Loading...</p>
+            <p>Загрузка...</p>
           )}
         </div>
       </div>
