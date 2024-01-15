@@ -33,7 +33,7 @@ export const resourcesMock: Resource[] = [
     ID: 2,
     ResourceName: 'Реголит',
     IsAvailable: true,
-    Image: '../../public/regolith.png',
+    Image: '../../public/regolith.jpg',
     Density: 8,
     Demand: 10,
     IsToxic: true,
