@@ -156,7 +156,7 @@ const HomePage: FC = () => {
                           imageUrl={resource.Image}
                           resourceName={resource.ResourceName}
                           resourceStatus={resource.IsAvailable}
-                          resourceDetailed={pathname.includes('front') ? window.location.href.split('?')[0]+"resource?resource_name="+resource.ResourceName : `/resources/${resource.ResourceName}`}
+                          resourceDetailed={pathname.includes('front') ? window.location.href.split('?')[0]+"?resource_name="+resource.ResourceName : `/resources/${resource.ResourceName}`}
                           changeStatus={`/resources/change_status/${resource.ResourceName}`}
                           onStatusChange={handleStatusChange}
                       />
