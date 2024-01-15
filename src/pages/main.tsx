@@ -15,6 +15,7 @@ import ReportDetailedPage from './reportDetailedPage';
 import ManageResources from './manageResourcesPage';
 import NewResPage from './newResourcePage';
 import EditPage from './editPage';
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
     <BrowserRouter>
@@ -38,7 +39,3 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </BrowserRouter>
     </Provider>
 )
-
-/*
-
-      */
