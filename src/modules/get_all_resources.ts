@@ -2,22 +2,6 @@ import axios from 'axios';
 import { Resource } from './ds';
 
 
-export const getAllResources = async (resName = '', resourcesWithHighDemand = '',): Promise<Resource[]> => {
-  try {
-    const queryParams = new URLSearchParams({
-      resourceName: resName,
-      highDemand: resourcesWithHighDemand,
-    });
-    console.log("111")
-    const response = await axios.get(`/api/resources?${queryParams.toString()}`);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return resourcesMock;
-  }
-};
-
-
 export const resourcesMock: Resource[] = [
   {
       ID: 1,
@@ -50,3 +34,32 @@ export const resourcesMock: Resource[] = [
     Desc: 'Алюминий широко используется в инженерии',
   },
   ]
+
+export const getAllResources = async (resName = '', resourcesWithHighDemand = '',): Promise<Resource[]> => {
+  try {
+    const queryParams = new URLSearchParams({
+      resourceName: resName,
+      highDemand: resourcesWithHighDemand,
+    });
+    console.log("111")
+    const response = await axios.get(`/api/resources?${queryParams.toString()}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+
+    if (resName !== '' || resourcesWithHighDemand !== '') {
+      let filteredResources = resourcesMock.filter(resource =>
+        resName === '' || resource.ResourceName.toLowerCase().includes(resName.toLowerCase()));
+
+      if (resourcesWithHighDemand !== '') {
+        filteredResources = filteredResources.filter(resource => resource.Demand > 6);
+      }
+
+      return filteredResources;
+    } else {
+      return resourcesMock;
+    }
+  }
+};
+
+
