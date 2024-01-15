@@ -1,8 +1,9 @@
 import { FC, useEffect, useState } from 'react'
 import '../styles/rp-style.css'
 import { useParams } from 'react-router-dom';
-import { getResourceByName } from '../modules/get_resource_by_name'
+//import { getResourceByName } from '../modules/get_resource_by_name'
 import { Resource } from '../modules/ds'
+import { getAllResources } from '../modules/get_all_resources';
 
 const ResPage: FC = () => {
     const [resource, setResource] = useState<Resource>()
@@ -13,7 +14,8 @@ const ResPage: FC = () => {
           console.log("res_name: ", resource_name)
 
           const loadResource = async () => {
-              const result = await getResourceByName(String(resource_name))
+              const all_resources = await getAllResources()
+              const result = all_resources.find(resource => resource.ResourceName === resource_name)
               console.log(result)
               setResource(result)
           }
