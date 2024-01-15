@@ -156,7 +156,6 @@ const HomePage: FC = () => {
                           imageUrl={resource.Image}
                           resourceName={resource.ResourceName}
                           resourceStatus={resource.IsAvailable}
-                          resourceDetailed={pathname.includes('front') ? `/resources-front/${encodeURIComponent(resource.ResourceName)}` : `/resources/${resource.ResourceName}`}
                           changeStatus={`/resources/change_status/${resource.ResourceName}`}
                           onStatusChange={handleStatusChange}
                       />

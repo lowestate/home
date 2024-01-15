@@ -13,12 +13,11 @@ interface Props {
     imageUrl: string;
     resourceName: string;
     resourceStatus: boolean;
-    resourceDetailed: string;
     changeStatus: string;
     onStatusChange: (resourceName: string, newStatus: boolean) => void;
 }
 
-const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDetailed, onStatusChange}) => {
+const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus,  onStatusChange}) => {
     const [isStatusChanging, setIsStatusChanging] = useState(false);
     const [isResourceAdded, setIsResourceAdded] = useState(false);
     const navigate = useNavigate();
@@ -105,7 +104,6 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
               </Card.Title>
             </div>
             <Button
-              href={resourceDetailed}
               style={{
                 fontSize: '18px',
                 backgroundColor: '#001f3f',
@@ -115,6 +113,7 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
                 borderRadius: '5px',
                 marginBottom: '7px',
               }}
+              onClick={() => (navigate(`/resources-front/${encodeURIComponent(resourceName)}`))}
             >
               Отчет по добыче
             </Button>
