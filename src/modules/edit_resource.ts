@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Resource } from './ds';
 
 export const changeResource = async (userToken = '', resource_name: string | undefined, name: string | undefined, density: number | undefined, demand: number | undefined, isToxic: boolean | undefined, image: string | undefined, desc: string | undefined): Promise<string> => {
     const config = {
@@ -18,7 +17,7 @@ export const changeResource = async (userToken = '', resource_name: string | und
 	    'Image':        image,
 	    'Desc':         desc,
     }
-
+    , config
   )
     .then((response) => response.data);
 }

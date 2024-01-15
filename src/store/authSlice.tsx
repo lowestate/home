@@ -26,8 +26,7 @@ const initialState = {
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
-    extraReducers: {
+    reducers: {
         [registerUser.pending.toString()]: (state) => {
             state.loading = true;
             state.error = null

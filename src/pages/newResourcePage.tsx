@@ -1,11 +1,8 @@
 import { ChangeEvent, FC, useState } from "react";
-import { deleteResourceFromMM } from "../modules/delete_resource_from_mm";
-import cartSlice from "../store/cartSlice";
 import { useSelector } from "react-redux";
 import store from "../store/store";
-import { Resource } from "../modules/ds";
-import { Modal, Button, ListGroup, ListGroupItem, FormControl, Row, Col, Alert } from "react-bootstrap";
-import { Form, useNavigate } from "react-router-dom";
+import { Button, FormControl, Alert } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { addNewRes } from "../modules/add_new_resource";
 
 const NewResPage: FC = () => {

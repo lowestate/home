@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Button, Col, Table } from 'react-bootstrap';
+import { Button,  Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Resource } from '../../modules/ds';
 import Pagination from '../pagination/pagination';

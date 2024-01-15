@@ -6,9 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import store, { useAppDispatch } from '../../store/store';
 import { useSelector } from 'react-redux';
 import cartSlice from '../../store/cartSlice';
-import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
 import { createReport } from '../../modules/create_report';
-import { changeResource } from '../../modules/edit_resource';
 import { deleteResourceFromMM } from '../../modules/delete_resource_from_mm';
 
 interface Props {
@@ -27,7 +25,6 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
     const dispatch = useAppDispatch()
 
     const { userRole, userToken } = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
-    const addedResources = localStorage.getItem("resources")
 
     const handleStatusChange = async () => {
         setIsStatusChanging(true);

@@ -3,7 +3,6 @@ import '../styles/hp-style.css';
 import { Resource } from '../modules/ds';
 import { getAllResources } from '../modules/get_all_resources';
 import ResCard from '../components/resourceCard/ResCard';
-import { Button, Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import store, { useAppDispatch } from '../store/store';
 import cartSlice from '../store/cartSlice';
@@ -19,8 +18,8 @@ const HomePage: FC = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
     const { userToken, userRole, userName } = useSelector((state: ReturnType<typeof store.getState>) => state.auth)
-    const { added } = useSelector((state: ReturnType<typeof store.getState>) => state.cart)
-    const [isStatusChanging, setIsStatusChanging] = useState(false);
+    useSelector((state: ReturnType<typeof store.getState>) => state.cart)
+    const [isStatusChanging] = useState(false);
     const { resName } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
     const [name, setName] = useState(resName);
 
@@ -50,16 +49,17 @@ const HomePage: FC = () => {
         loadDraftRequest()
     
     
-        const loadOrbits = async () => {
+        const loadResources = async () => {
           try {
             const result = await getAllResources(name?.toString(), resourceWithHighDemand?.toString());
             setResources(result);
+            console.log('Ресурсы загружены')
           } catch (error) {
             console.error("Ошибка при загрузке объектов:", error);
-          }
+          }   
         }
     
-        loadOrbits();
+        loadResources();
       }, []);
     
 

@@ -1,8 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Button, Table } from 'react-bootstrap';
-import store from '../../store/store';
 // import '../../styles/reportTable.style.css';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getUsernameByUUID } from '../../modules/get_username';
 

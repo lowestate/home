@@ -1,4 +1,4 @@
-import axios, {AxiosError} from 'axios';
+import axios from 'axios';
 import { ExtractionReports } from './ds';
 
 export const getReports = async (userToken = '', userName = '', status = '', dateStart = '', dateEnd = ''): Promise<ExtractionReports[]> => {

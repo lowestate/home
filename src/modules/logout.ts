@@ -11,8 +11,9 @@ const logoutUser = async () => {
         Authorization: `Bearer ${cookieValue}`
       }
     });
-
-    console.log('Успешный выход из системы');
+    if (response) {
+      console.log('Успешный выход из системы');
+    }
     window.location.href = '/login';
   } catch (error) {
     console.error('Ошибка при выходе из системы:', error);

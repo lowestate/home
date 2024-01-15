@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Form, FormCheck, FormControl, FormLabel, Row } from 'react-bootstrap';
+import { Button, Col, Form, FormCheck, FormControl,  Row } from 'react-bootstrap';
 import '../../styles/filter-style.css'; // импорт применяется только если стереть, сохранить, вернуть, сохранить
 
 interface ResourceFilterProps {

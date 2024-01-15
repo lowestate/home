@@ -1,21 +1,17 @@
-import { FC, useRef, useState, useEffect, ChangeEvent } from "react";
-import { ListGroup, ListGroupItem, Button, FormGroup, FormSelect, Col, Modal, Row, FormControl, Table } from "react-bootstrap";
+import { FC,  useState, useEffect } from "react";
+import {  Button, FormGroup, Col, Modal, Row,  Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Form } from "react-bootstrap";
 import store from "../store/store";
 import { ExtractionReports, Resource } from "../modules/ds";
 import { getReportResources } from "../modules/get_report_resources";
-import { changeReportStatus } from "../modules/change_report_status";
-import { setReportResources } from "../modules/set_report_resources";
 import { getDetailedReport } from "../modules/get_detailed_report";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { getAllResources } from "../modules/get_all_resources";
 import { getExtractionData } from "../modules/get_extraction_data";
+import { changeReportStatus } from "../modules/change_report_status";
 
-interface InputChangeInterface {
-  target: HTMLInputElement;
-}
 
 const styles = {
     buttonContainer: {
@@ -37,15 +33,15 @@ const styles = {
 };
 
 const ReportDetailedPage: FC = () => {
-  const [resourceNames, setResourceNames] = useState<string[]>();
+  const [, setResourceNames] = useState<string[]>();
   const [resources, setResources] = useState<Resource[]>();
   const [extractions, setExtraction] = useState<number[][] | undefined>();
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const { userToken, userRole } = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
-  const [reqId, setReqId] = useState(0);
+  const [, setReqId] = useState(0);
   const [req, setReq] = useState<ExtractionReports | undefined>();
-  const [options, setOptions] = useState<Resource[]>([]);
+  const [, setOptions] = useState<Resource[]>([]);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -147,12 +143,13 @@ const ReportDetailedPage: FC = () => {
       return;
     }
 
-    const editResult = await changeReportStatus(userToken, {
-      ID: req?.ID,
+    const reqIDString: string | null = localStorage.getItem("reqID");
+    const reqID: number = reqIDString ? parseInt(reqIDString, 10) : 0;
+
+    await changeReportStatus(userToken, {
+      ID: reqID,
       Status: status,
-      Month: "",
-      Place: ""
-    });
+  });
 
     navigate("/reports/");
   };
