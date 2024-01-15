@@ -20,7 +20,7 @@ import EditPage from './editPage';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <HashRouter basename="">
+      <HashRouter>
         <NavBar />
         <Breadcrumbs />
         <Routes>
