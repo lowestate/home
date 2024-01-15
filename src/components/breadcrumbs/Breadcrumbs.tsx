@@ -9,7 +9,8 @@ const endpointToLabel: EndpointToLabelMap = {
   'resources':  'Ресурсы',
   'profile':    'Личный кабинет',
   'auth':       'Вход',
-  'reports':    'Отчеты по добыче'
+  'reports':    'Отчеты по добыче',
+  'resources-front':  'Ресурсы',
 };
 
 function Breadcrumbs() {
