@@ -21,9 +21,9 @@ const ResPage: FC = () => {
   
           loadResource()
         } else {
-          const queryString = window.location.search;
-          const urlParams = new URLSearchParams(queryString)
-          const resName = urlParams.get('resource_name')
+          //const queryString = window.location.search;
+          //const urlParams = new URLSearchParams(queryString)
+          const resName = decodeURIComponent(location.search.replace('?resource_name', ''))
           console.log(resName)
           const loadRes = async () => {
               const result = await getResourceByName(String(resName))
