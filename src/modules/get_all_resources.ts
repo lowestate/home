@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Resource } from './ds';
 
+
 export const getAllResources = async (resName = '', resourcesWithHighDemand = '',): Promise<Resource[]> => {
   try {
     const queryParams = new URLSearchParams({
@@ -22,7 +23,7 @@ export const resourcesMock: Resource[] = [
       ID: 1,
       ResourceName: 'Титан',
       IsAvailable: true,
-      Image: '../titanium.png',
+      Image: '../../public/titanium.png',
       Density: 14,
       Demand: 5,
       IsToxic: false,
@@ -32,7 +33,7 @@ export const resourcesMock: Resource[] = [
     ID: 2,
     ResourceName: 'Реголит',
     IsAvailable: true,
-    Image: '../regolith.png',
+    Image: '../../public/regolith.png',
     Density: 8,
     Demand: 10,
     IsToxic: true,
@@ -42,7 +43,7 @@ export const resourcesMock: Resource[] = [
     ID: 3,
     ResourceName: 'Алюминий',
     IsAvailable: true,
-    Image: '../aluminium.png',
+    Image: '../../public/aluminium.jpg',
     Density: 1,
     Demand: 3,
     IsToxic: false,
