@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { HashRouter} from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './homePage'
 import ResPage from './resPage'
@@ -20,7 +20,7 @@ import EditPage from './editPage';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <HashRouter>
+      <BrowserRouter>
         <NavBar />
         <Breadcrumbs />
         <Routes>
@@ -38,7 +38,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/resources-front/:resource_name" Component={ResPage} />
           
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 )
