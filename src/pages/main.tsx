@@ -33,6 +33,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/manage_reports" Component={ManageResources} />
           <Route path="/auth" Component={AuthPage} />
           <Route path="/profile" Component={AccountPage} />
+
+          <Route path="/resources-front" Component={HomePage} />
+          <Route path="/resources-front/:resource_name" Component={ResPage} />
+          
         </Routes>
       </BrowserRouter>
     </Provider>
