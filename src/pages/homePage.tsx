@@ -22,7 +22,7 @@ const HomePage: FC = () => {
     const [isStatusChanging] = useState(false);
     const { resName } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
     const [name, setName] = useState(resName);
-    const pathname = window.location.pathname;
+   // const pathname = window.location.pathname;
 
 
     const { resourceWithHighDemand } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);

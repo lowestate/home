@@ -24,19 +24,22 @@ const NavigationMain: FC = () => {
 
     return ( 
         <Navbar className="navbar" expand="lg">
-            <Navbar.Brand className="navbar-logo" href="/resources">
+            <Navbar.Brand className="navbar-logo"
+            onClick={() => (navigate(`/resources`))}>
                 Добыча ресурсов
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="navbar-blocks mr-auto">
-                    <Nav.Link className="navbar-block" href="/resources">
+                    <Nav.Link className="navbar-block"
+                     onClick={() => (navigate(`/resources`))}>
                         Список ресурсов
                     </Nav.Link>
                 </Nav>
                 <Nav>
                     {!userToken && (
-                        <Nav.Link className="navbar-block" href="/auth">
+                        <Nav.Link className="navbar-block" 
+                        onClick={() => (navigate(`/auth`))}>
                             Вход
                         </Nav.Link>
                     )}
