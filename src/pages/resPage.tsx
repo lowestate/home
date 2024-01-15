@@ -8,9 +8,8 @@ const ResPage: FC = () => {
     const [resource, setResource] = useState<Resource>()
 
     const { resource_name } = useParams();
-    const pathname = window.location.pathname
+    // const pathname = window.location.pathname
     useEffect(() => {
-        if (!pathname.includes('front')) {
           console.log("res_name: ", resource_name)
 
           const loadResource = async () => {
@@ -20,18 +19,6 @@ const ResPage: FC = () => {
           }
   
           loadResource()
-        } else {
-          //const queryString = window.location.search;
-          //const urlParams = new URLSearchParams(queryString)
-          const resName = decodeURIComponent(location.search.replace('?resource_name', ''))
-          console.log(resName)
-          const loadRes = async () => {
-              const result = await getResourceByName(String(resName))
-              setResource(result)
-          }
-  
-          loadRes()
-        }
         
     }, [resource_name]);
 

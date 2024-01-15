@@ -1,35 +1,23 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-//import { Routes, Route } from 'react-router-dom';
-//import HomePage from './homePage'
-//import ResPage from './resPage'
+import { Routes, Route } from 'react-router-dom';
+import HomePage from './homePage'
+import ResPage from './resPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
-//import AccountPage from './accountPage';
-//import AuthPage from './authPage';
-//import NavBar from '../components/navigation/NavBar';
-//import Breadcrumbs from '../components/breadcrumbs/Breadcrumbs';
+import AccountPage from './accountPage';
+import AuthPage from './authPage';
+import NavBar from '../components/navigation/NavBar';
+import Breadcrumbs from '../components/breadcrumbs/Breadcrumbs';
 import store from '../store/store';
-//import ReportsPage from './reportsPage';
-//import ReportDetailedPage from './reportDetailedPage';
-//import ManageResources from './manageResourcesPage';
-//import NewResPage from './newResourcePage';
-//import EditPage from './editPage';
-import App from './app';
-
+import ReportsPage from './reportsPage';
+import ReportDetailedPage from './reportDetailedPage';
+import ManageResources from './manageResourcesPage';
+import NewResPage from './newResourcePage';
+import EditPage from './editPage';
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>
-)
-
-/*
-<BrowserRouter>
+    <BrowserRouter>
         <NavBar />
         <Breadcrumbs />
         <Routes>
@@ -43,9 +31,14 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/auth" Component={AuthPage} />
           <Route path="/profile" Component={AccountPage} />
 
-          <Route path="/resources-front" Component={HomePage} />
-          <Route path="/resources-front/resource?resource_name=?" Component={ResPage} />
+          <Route path="/resources-front" element={<HomePage />} />
+          <Route path="/resources-front/:resource_name" element={<ResPage />} />
           
         </Routes>
       </BrowserRouter>
+    </Provider>
+)
+
+/*
+
       */
