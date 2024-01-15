@@ -22,8 +22,7 @@ const HomePage: FC = () => {
     const [isStatusChanging] = useState(false);
     const { resName } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
     const [name, setName] = useState(resName);
-    const pathname = window.location.pathname;
-
+    //const pathname = window.location.pathname;
 
     const { resourceWithHighDemand } = useSelector((state: ReturnType<typeof store.getState>) => state.filters);
     const [highDemand, setHighRemand] = useState(resourceWithHighDemand);
@@ -156,7 +155,7 @@ const HomePage: FC = () => {
                           imageUrl={resource.Image}
                           resourceName={resource.ResourceName}
                           resourceStatus={resource.IsAvailable}
-                          resourceDetailed={pathname.includes('front') ? window.location.href.split('?')[0]+"?resource_name="+resource.ResourceName : `/resources/${resource.ResourceName}`}
+                          resourceDetailed={`/resources/${resource.ResourceName}`}
                           changeStatus={`/resources/change_status/${resource.ResourceName}`}
                           onStatusChange={handleStatusChange}
                       />
