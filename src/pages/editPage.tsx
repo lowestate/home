@@ -1,12 +1,9 @@
 import { ChangeEvent, FC, useState } from "react";
-import { deleteResourceFromMM } from "../modules/delete_resource_from_mm";
-import cartSlice from "../store/cartSlice";
 import { useSelector } from "react-redux";
 import store from "../store/store";
 import { Resource } from "../modules/ds";
-import { Modal, Button, ListGroup, ListGroupItem, FormControl, Row, Col, Alert } from "react-bootstrap";
-import { Form, useNavigate, useParams } from "react-router-dom";
-import { addNewRes } from "../modules/add_new_resource";
+import { Button, FormControl, Alert } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 import { changeResource } from "../modules/edit_resource";
 import { getResourceByName } from "../modules/get_resource_by_name";
 
@@ -104,10 +101,29 @@ const EditPage: FC = () => {
         setInputImage(inputImage);
     };
 
+    const [mode, setMode] = useState<'create' | 'edit'>('create');
+
     return (
-        <div style={{ marginLeft: '15px' }}>
-          <h1 style={{ color: 'white' }}>Редактирование ресурса</h1>
-          
+      <div style={{ marginLeft: '15px' }}>
+        <h1 style={{ color: 'white' }}>
+          {mode === 'edit' ? 'Редактирование' : 'Создание'} ресурса
+        </h1>
+    
+        <div style={{ marginBottom: '10px' }}>
+          <Button
+            variant={mode === 'create' ? 'primary' : 'secondary'}
+            onClick={() => setMode('create')}
+            style={{ marginRight: '10px' }}
+          >
+            Создание
+          </Button>
+          <Button
+            variant={mode === 'edit' ? 'primary' : 'secondary'}
+            onClick={() => setMode('edit')}
+          >
+            Редактирование
+          </Button>
+        </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
               <span style={{ marginRight: '10px', color: 'white', fontSize: '18px', width: '200px' }}>Название ресурса:</span>
@@ -182,7 +198,7 @@ const EditPage: FC = () => {
           </div>
       
           <Button className="common-button" variant="success" onClick={handleSubmit}>
-            Изменить
+            {mode === 'edit' ? 'Изменить' : 'Создать'} ресурс
           </Button>
       
           {showSuccess && <Alert variant="success">Resource added successfully!</Alert>}

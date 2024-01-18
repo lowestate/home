@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Resource } from './ds';
 
 export const getUsernameByUUID = async (id = ''): Promise<string> => {
   try {

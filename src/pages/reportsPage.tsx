@@ -45,35 +45,46 @@ const ReportCard: FC = () => {
     };
 
     useEffect(() => {
-        const loadTransfReqs = async () => {
-            if (userToken !== undefined) {
-                const result = (await getReports(userToken?.toString(), userName?.toString(), '')).filter((item) => {
-                    if (userRole === '0') {
-                        return item.Client?.Username === userName;
-                    } else {
-                        console.log(userName)
-                        return item.Moderator?.Username === userName;
-                    }
-                });
-                setTransfReqs(result)
+        const applyFiltersAfterSearch = async () => {
+          try {
+            const data = await getReports(
+              userToken?.toString(),
+              userName?.toString(),
+              reqUsername?.toString(),
+              reqDateStart?.toString(),
+              reqDateFin?.toString()
+            );
+      
+            let formattedStartDate = "";
+            if (reqDateStart !== null) {
+              const startDate = new Date(reqDateStart);
+              if (!isNaN(startDate.getTime())) {
+                formattedStartDate = startDate.toISOString().slice(0, 19).replace("T", " ");
+              }
             }
-        }
-
-        const intervalId = setInterval(fetchAsyncProcessedAmount, 5000); // Поллинг каждые 5 секунд
-
-        loadTransfReqs();
-        fetchAsyncProcessedAmount(); // Загрузка сразу
-
-        return () => clearInterval(intervalId);
-        /*
-        const getAsyncProcessedAmount = async () => {
-            const asyncProcessedAmount = await getAsyncProcessed(userToken?.toString())
-            setAsyncProcessedAmount(asyncProcessedAmount)
-        }
-
-        getAsyncProcessedAmount()
-        */
-    }, []);
+      
+            let formattedEndDate = "";
+            if (reqDateFin !== null) {
+              const endDate = new Date(reqDateFin);
+              if (!isNaN(endDate.getTime())) {
+                formattedEndDate = endDate.toISOString().slice(0, 19).replace("T", " ");
+              }
+            }
+      
+            dispatch(reqFiltersSlice.actions.setUsernameReq(reqUsername));
+            dispatch(reqFiltersSlice.actions.setDateFin(formattedEndDate));
+            dispatch(reqFiltersSlice.actions.setDateStart(formattedStartDate));
+      
+            setTransfReqs(data);
+      
+            // navigate('/reports', { state: { data } }); // Не обязательно, если не требуется перенаправление
+          } catch (error) {
+            console.error("Ошибка при получении отчетов:", error);
+          }
+        };
+      
+        applyFiltersAfterSearch();
+      }, [reqUsername, reqDateStart, reqDateFin, userToken, userName, dispatch]);
 
     const applyFilters = async () => {
         try {
@@ -185,6 +196,8 @@ const ReportCard: FC = () => {
                         usernameReq={reqUsername}
                         dateStart={reqDateStart}
                         dateFin={reqDateFin}
+                        reqStatus={reqStatus}
+                        setReqStatus={setReqStatus}
                         setUsernameReq={setReqUsername}
                         setDateFin={setDateFin}
                         setDateStart={setDateStart}
@@ -210,6 +223,10 @@ const ReportCard: FC = () => {
                             <th>Дата окончания</th>
                             <th>Месяц</th>
                             <th>Место</th>
+                            {userRole === '1' && 
+                                <th>Действия</th>
+                            }
+                            
                         </tr>
                     </thead>
                     <tbody>

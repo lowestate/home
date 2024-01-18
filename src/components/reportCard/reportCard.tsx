@@ -1,10 +1,12 @@
 import { FC, useEffect, useState } from 'react';
-import { Button, Table } from 'react-bootstrap';
-import store from '../../store/store';
 // import '../../styles/reportTable.style.css';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getUsernameByUUID } from '../../modules/get_username';
+import { Button } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import store from '../../store/store';
+import { changeReportStatus } from '../../modules/change_report_status';
+import { ExtractionReports } from '../../modules/ds';
 
 interface TransfReqRowProps {
     id: number;
@@ -28,6 +30,11 @@ const TransfReqRow: FC<TransfReqRowProps> = ({
     place
 }) => {
     const [originalUsername, setOriginalUsername] = useState<string | null>(null);
+    const { userToken, userRole } = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
+    const [reqID, setReqId] = useState(0);
+    const [req, setReq] = useState<ExtractionReports | undefined>();
+    const navigate = useNavigate();
+
     const formatDate = (dateString: string | undefined) => {
         if (!dateString) {
             return 'Не завершена';
@@ -57,9 +64,24 @@ const TransfReqRow: FC<TransfReqRowProps> = ({
             console.error('Error fetching username:', error);
           }
         };
+
+        
     
         getUsername();
       }, [username]);
+
+      const sendChanges = async (status: string) => {
+        if (!userToken) {
+          return;
+        }
+        console.log(id, status)
+        await changeReportStatus(userToken, {
+          ID: id,
+          Status: status,
+      });
+    
+        window.location.reload();
+      };
 
     return (
         <tr>
@@ -71,6 +93,12 @@ const TransfReqRow: FC<TransfReqRowProps> = ({
             <td>{dateFinished !== undefined ? formatDate(dateFinished) : 'Не завершена'}</td>
             <td>{month}</td>
             <td>{place}</td>
+            {userRole === '1' &&
+            <td>
+                <Button className="common-button" variant="warning" onClick={() => sendChanges('Отклонена')}>Отклонить</Button>
+                <Button className="common-button" variant="success" onClick={() => sendChanges('Одобрена')}>Одобрить</Button>
+            </td>
+            }   
         </tr>
     );
 };

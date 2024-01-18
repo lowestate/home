@@ -37,6 +37,7 @@ const AuthPage: FC = () => {
 
   const sendLogin = async () => {
     await dispatch(loginUser({ login: login, password: password }));
+    navigate('/resources')
     window.location.reload()
   };
 

@@ -6,28 +6,24 @@ import { useNavigate } from 'react-router-dom';
 import store, { useAppDispatch } from '../../store/store';
 import { useSelector } from 'react-redux';
 import cartSlice from '../../store/cartSlice';
-import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
 import { createReport } from '../../modules/create_report';
-import { changeResource } from '../../modules/edit_resource';
 import { deleteResourceFromMM } from '../../modules/delete_resource_from_mm';
 
 interface Props {
     imageUrl: string;
     resourceName: string;
     resourceStatus: boolean;
-    resourceDetailed: string;
     changeStatus: string;
     onStatusChange: (resourceName: string, newStatus: boolean) => void;
 }
 
-const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDetailed, onStatusChange}) => {
+const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus,  onStatusChange}) => {
     const [isStatusChanging, setIsStatusChanging] = useState(false);
     const [isResourceAdded, setIsResourceAdded] = useState(false);
     const navigate = useNavigate();
     const dispatch = useAppDispatch()
 
     const { userRole, userToken } = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
-    const addedResources = localStorage.getItem("resources")
 
     const handleStatusChange = async () => {
         setIsStatusChanging(true);
@@ -108,7 +104,6 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
               </Card.Title>
             </div>
             <Button
-              href={resourceDetailed}
               style={{
                 fontSize: '18px',
                 backgroundColor: '#001f3f',
@@ -118,9 +113,28 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
                 borderRadius: '5px',
                 marginBottom: '7px',
               }}
+              onClick={() => (navigate(`/resources-front/${encodeURIComponent(resourceName)}`))}
             >
               Отчет по добыче
             </Button>
+            <div></div>
+            {userRole !== '2' && (
+              <Button
+                onClick={handleCreateReport}
+                style={{
+                  fontSize: '18px',
+                  color: '#fff',
+                  width: '90%',
+                  padding: '10px',
+                  borderRadius: '5px',
+                  borderColor: '#fff',
+                  backgroundColor: 'rgba(0, 148, 52, 0.7)',
+                  marginBottom: '7px'
+                }}
+              >
+                {isResourceAdded ? 'Убрать' : 'Добавить'}
+              </Button>
+            )}
             <div></div>
             {userRole === '1' && (
               <Button
@@ -156,22 +170,7 @@ const ResCard: FC<Props> = ({ imageUrl, resourceName, resourceStatus, resourceDe
                 Редактировать
               </Button>
             )}
-            {userRole === '0' && (
-              <Button
-                onClick={handleCreateReport}
-                style={{
-                  fontSize: '18px',
-                  color: '#fff',
-                  width: '90%',
-                  padding: '10px',
-                  borderRadius: '5px',
-                  borderColor: '#fff',
-                  backgroundColor: 'rgba(141, 27, 27, 0.7)',
-                }}
-              >
-                {isResourceAdded ? 'Убрать' : 'Добавить'}
-              </Button>
-            )}
+            
           </Card.Body>
         </Card>
       );

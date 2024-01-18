@@ -6,7 +6,7 @@ const getReportByStatus = async (
     userName: string | undefined, 
     status: string
 ) => {
-    if (userToken && userToken !== '') {
+    if (userToken && userToken !== '' && userRole) {
         const reports = await getReports(userToken, userName, status);
         console.log('r',reports)
 

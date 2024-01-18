@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { Nav, NavDropdown } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 import '../../styles/navBar.style.css';
@@ -24,19 +24,22 @@ const NavigationMain: FC = () => {
 
     return ( 
         <Navbar className="navbar" expand="lg">
-            <Navbar.Brand className="navbar-logo" href="/resources">
+            <Navbar.Brand className="navbar-logo"
+            onClick={() => (navigate(`/resources`))}>
                 Добыча ресурсов
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="navbar-blocks mr-auto">
-                    <Nav.Link className="navbar-block" href="/resources">
+                    <Nav.Link className="navbar-block"
+                     onClick={() => (navigate(`/resources`))}>
                         Список ресурсов
                     </Nav.Link>
                 </Nav>
                 <Nav>
                     {!userToken && (
-                        <Nav.Link className="navbar-block" href="/auth">
+                        <Nav.Link className="navbar-block" 
+                        onClick={() => (navigate(`/auth`))}>
                             Вход
                         </Nav.Link>
                     )}
@@ -59,7 +62,7 @@ const NavigationMain: FC = () => {
                                 >
                                     Личный кабинет
                                 </NavDropdown.Item>
-                                {(userRole === '0') && (
+                                {(userRole !== '2') && (
                                     <NavDropdown.Item
                                         className="navbar-block"
                                         onClick={() => {
@@ -89,7 +92,8 @@ const NavigationMain: FC = () => {
                                             setShowDropdown(false);
                                         }}
                                     >
-                                        Добавить ресурс
+                                        Добавление или<br />
+                                        редактирование ресурсов
                                     </NavDropdown.Item>
                                 )}
                                 <NavDropdown.Item

@@ -3,11 +3,9 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 import { Form, Button, Col, FormControl, ListGroup, ListGroupItem, Modal, Row } from "react-bootstrap";
 import cartSlice from "../store/cartSlice";
 import store, { useAppDispatch } from "../store/store";
-import { createReport } from "../modules/create_report";
 import { useNavigate } from "react-router-dom";
 import { deleteResourceFromMM } from "../modules/delete_resource_from_mm";
 import { changeReportStatus } from "../modules/change_report_status";
-import { changeResourceStatus } from "../modules/change_resource_status";
 import { InsertPlanInMM } from "../modules/insert_plan_in_mm";
 import { InsertDataToReport } from "../modules/insertDataInReport";
 
