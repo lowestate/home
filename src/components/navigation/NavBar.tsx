@@ -14,6 +14,9 @@ const NavigationMain: FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
+    const reqIDString: string | null = localStorage.getItem("reqID");
+    const reqID: number = reqIDString ? parseInt(reqIDString, 10) : 0;
+
     const handleLogout = () => {
         if (userToken) {
             dispatch(logoutUser(userToken));
@@ -66,7 +69,7 @@ const NavigationMain: FC = () => {
                                     <NavDropdown.Item
                                         className="navbar-block"
                                         onClick={() => {
-                                            navigate('/manage_reports');
+                                            navigate(`/reports/${reqID}`);
                                             setShowDropdown(false);
                                         }}
                                     >

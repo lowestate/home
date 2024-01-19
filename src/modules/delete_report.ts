@@ -8,14 +8,8 @@ export const deleteReport = async (userToken = '', request: ExtractionReports): 
       'Authorization': 'Bearer ' + userToken,
     },
   }
-  return axios.put(
+  return axios.delete(
     `/api/reports/${request.ID}/delete`,
-    {
-      report_id: request.ID,
-      status: request.Status,
-    },
-    config
-
   )
     .then((response) => response.data);
 }

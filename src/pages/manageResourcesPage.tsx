@@ -55,6 +55,7 @@ const ManageResources: FC = () => {
                 await Promise.all(
                     resourcesArray.map(async (resName, resID) => {
                         const plan = inputValues[resID] || ''; 
+                        console.log("!!!!!!!!", resName, "!",resID,"!", plan)
                         await InsertPlanInMM(userToken, reqID, resName, parseInt(plan, 10));
                     })
                 );
