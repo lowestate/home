@@ -106,10 +106,10 @@ const ReportCard: FC = () => {
         dispatch(filtersSlice.actions.setRequestStatus(''));
 
         try {
-        const data = await getReports();
-        setTransfReqs(data);
+            const data = await getReports(userToken?.toString(), userName?.toString(), '');
+            setTransfReqs(data);
         } catch (error) {
-        console.error("Ошибка загрузки ресурсов:", error);
+            console.error("Ошибка загрузки ресурсов:", error);
         }
 
     };

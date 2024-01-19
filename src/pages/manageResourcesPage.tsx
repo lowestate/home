@@ -5,9 +5,11 @@ import cartSlice from "../store/cartSlice";
 import store, { useAppDispatch } from "../store/store";
 import { useNavigate } from "react-router-dom";
 import { deleteResourceFromMM } from "../modules/delete_resource_from_mm";
-import { changeReportStatus } from "../modules/change_report_status";
+import { changeReportStatusUser } from "../modules/change_report_status_user";
 import { InsertPlanInMM } from "../modules/insert_plan_in_mm";
 import { InsertDataToReport } from "../modules/insertDataInReport";
+import { deleteReport } from "../modules/delete_report";
+import { changeReportStatusAdmin } from "../modules/change_report_status_admin";
 
 const ManageResources: FC = () => {
     const [showSuccess, setShowSuccess] = useState(false);
@@ -17,7 +19,7 @@ const ManageResources: FC = () => {
     const [inputPlace, setInputPlace] = useState< string >();
     const [inputMonth, setInputMonth] = useState< string >();
 
-    const {userToken} = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
+    const {userToken, userRole} = useSelector((state: ReturnType<typeof store.getState>) => state.auth);
     const resources = useSelector((state: ReturnType<typeof store.getState>) => state.cart.resources);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -58,10 +60,20 @@ const ManageResources: FC = () => {
                 );
                 await InsertDataToReport(userToken, reqID, inputMonth, inputPlace);
                 
-                await changeReportStatus(userToken, {
-                    ID: reqID,
-                    Status: "Сформирована",
-                });
+                if (userRole === '0') {
+                    console.log("юзер формирует")
+                    await changeReportStatusUser(userToken, {
+                        ID: reqID,
+                        Status: "Сформирована",
+                    });
+                } else if (userRole === '1') {
+                    console.log("админ формирует")
+                    await changeReportStatusAdmin(userToken, {
+                        ID: reqID,
+                        Status: "Сформирована",
+                    });
+                }
+                
     
                 localStorage.setItem("reqID", "");
     
@@ -91,7 +103,7 @@ const ManageResources: FC = () => {
         const reqID: number = reqIDString ? parseInt(reqIDString, 10) : 0;
 
         try {
-            await changeReportStatus(userToken, {
+            await deleteReport(userToken, {
                 ID: reqID,
                 Status: "Удалена",
             });

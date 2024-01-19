@@ -10,7 +10,7 @@ const endpointToLabel: EndpointToLabelMap = {
   'profile':    'Личный кабинет',
   'auth':       'Вход',
   'reports':    'Отчеты по добыче',
-  'manage_resources':    'Состав заявки',
+  'manage_reports':    'Состав заявки',
   'resources-front':  'Ресурсы',
   'edit':  'Создание или изменение ресурса',
   'new':  'Создание или изменение ресурса',

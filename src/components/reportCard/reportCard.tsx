@@ -5,7 +5,7 @@ import { getUsernameByUUID } from '../../modules/get_username';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import store from '../../store/store';
-import { changeReportStatus } from '../../modules/change_report_status';
+import { changeReportStatusUser } from '../../modules/change_report_status_user';
 import { ExtractionReports } from '../../modules/ds';
 
 interface TransfReqRowProps {
@@ -75,7 +75,7 @@ const TransfReqRow: FC<TransfReqRowProps> = ({
           return;
         }
         console.log(id, status)
-        await changeReportStatus(userToken, {
+        await changeReportStatusUser(userToken, {
           ID: id,
           Status: status,
       });

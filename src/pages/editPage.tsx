@@ -6,6 +6,7 @@ import { Button, FormControl, Alert } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { changeResource } from "../modules/edit_resource";
 import { getResourceByName } from "../modules/get_resource_by_name";
+import { uploadImage } from "../modules/upload_image";
 
 const EditPage: FC = () => {
     const [resource, setResource] = useState<Resource>();
@@ -15,7 +16,7 @@ const EditPage: FC = () => {
     const [inputDensity, setInputDensity] = useState('');
     const [inputDemand, setInputDemand] = useState('');
     const [inputIsToxic, setInputIsToxic] = useState('');
-    const [inputImage, setInputImage] = useState('');
+    const [inputImage, setInputImage] = useState<File | null>(null);
     const [inputDesc, setInputDesc] = useState('');
     const navigate = useNavigate()
     
@@ -52,16 +53,23 @@ const EditPage: FC = () => {
                 parseFloat(inputDensity ?? "0"),
                 parseInt(inputDemand ?? "0", 10),
                 convertToBoolean(inputIsToxic),
-                inputImage,
+                '',
                 inputDesc
             );
+              if (inputImage) {
+                await uploadImage(
+                  userToken,
+                  resource_name,
+                  inputImage
+                );
+              } 
                 
             setShowSuccess(true);
             setInputName('');
             setInputDensity('');
             setInputDemand('');
             setInputIsToxic('');
-            setInputImage('');
+            setInputImage(null);
             setInputDesc('');
 
             navigate('/resources')
@@ -97,7 +105,7 @@ const EditPage: FC = () => {
     };
 
     const handleImageInput = (e: ChangeEvent<HTMLInputElement>) => {
-        const inputImage = e.target.value;
+        const inputImage = e.target.files && e.target.files[0];
         setInputImage(inputImage);
     };
 
@@ -186,13 +194,11 @@ const EditPage: FC = () => {
       
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
               <span style={{ marginRight: '10px', color: 'white', fontSize: '18px', width: '200px' }}>Картинка:</span>
-              <FormControl
-                type="text"
-                placeholder={resource?.Image}
-                value={inputImage || ''}
+              <input
+                type="file"
+                accept="image/*"
                 onChange={(e: ChangeEvent<HTMLInputElement>) => handleImageInput(e)}
-                className="mr-sm-2"
-                style={{width: '500px'}}
+                style={{ marginLeft: '10px' }}
               />
             </div>
           </div>

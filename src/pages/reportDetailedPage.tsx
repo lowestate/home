@@ -10,7 +10,8 @@ import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { getAllResources } from "../modules/get_all_resources";
 import { getExtractionData } from "../modules/get_extraction_data";
-import { changeReportStatus } from "../modules/change_report_status";
+import { changeReportStatusAdmin } from "../modules/change_report_status_admin";
+import { changeReportStatusUser } from "../modules/change_report_status_user";
 
 
 const styles = {
@@ -142,11 +143,18 @@ const ReportDetailedPage: FC = () => {
       console.log("ERROR req.ID undef");
       return;
     }
-
-    await changeReportStatus(userToken, {
-      ID: reqID,
-      Status: status,
-  });
+    if (userRole === '1') {
+      await changeReportStatusAdmin(userToken, {
+        ID: reqID,
+        Status: status,
+    });
+    } else if (userRole === '0') {
+      await changeReportStatusUser(userToken, {
+        ID: reqID,
+        Status: status,
+    });
+    }
+    
 
     navigate("/reports/");
   };
